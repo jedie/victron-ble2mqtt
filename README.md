@@ -17,6 +17,13 @@ Tested with:
 
 ## Usage
 
+### preperation
+
+`victron_ble` used [Bleak](https://pypi.org/project/bleak/) and the Linux backend of Bleak communicates with BlueZ over DBus. So you have to install this, e.g.:
+```bash
+~$ audo apt install bluez
+```
+
 ### Bootstrap
 
 Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
