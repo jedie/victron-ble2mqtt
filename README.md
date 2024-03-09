@@ -8,8 +8,6 @@
 
 Emit MQTT events from Victron Energy Solar Charger via [victron-ble](https://github.com/keshavdv/victron-ble)
 
-**This is in early, not useable state!**
-
 Tested with:
 
  * Solar Charger: [SmartSolar MPPT 100/20](https://www.victronenergy.de/solar-charge-controllers/smartsolar-mppt-75-10-75-15-100-15-100-20)
