@@ -91,3 +91,19 @@ Start publish MQTT endless look, just call `publish-loop` command, e.g.:
 ~/victron-ble2mqtt$ ./cli.py publish-loop
 ```
 
+### setup systemd services
+
+Check systemd setup:
+```bash
+~/victron-ble2mqtt$ ./cli.py systemd-debug
+```
+
+Setup services:
+```bash
+~/victron-ble2mqtt$ ./cli.py systemd-setup
+```
+
+Check the services:
+```bash
+~/victron-ble2mqtt$ ./cli.py systemd-status
+```
