@@ -4,6 +4,8 @@
 
 import asyncio
 import logging
+import os
+import socket
 import sys
 import time
 from datetime import datetime
@@ -275,6 +277,7 @@ def publish_loop(verbosity: int):
                 config_count=1,  # Send every time the config
             )
             self.rssi = None
+            self.hostname = socket.gethostname()
 
         def _detection_callback(self, device: BLEDevice, advertisement: AdvertisementData):
             self.rssi = advertisement.rssi
@@ -284,6 +287,20 @@ def publish_loop(verbosity: int):
             logger.debug(f"Received data from {ble_device.address.lower()}: {raw_data.hex()}")
 
             values = [
+                HaValue(
+                    name='Hostname',
+                    value=self.hostname,
+                    device_class=None,
+                    state_class=None,
+                    unit=None,
+                ),
+                HaValue(
+                    name='System load 1min.',
+                    value=os.getloadavg()[0],
+                    device_class=None,
+                    state_class='measurement',
+                    unit=None,
+                ),
                 HaValue(
                     name='Device Name',
                     value=ble_device.name,
@@ -306,7 +323,7 @@ def publish_loop(verbosity: int):
                         name='RSSI',
                         value=self.rssi,
                         device_class=None,
-                        state_class='measurement',
+                        state_class=None,
                         unit=None,
                     )
                 )
