@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [
     {name = 'Jens Diemer', email = 'git@jensdiemer.de'}
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
     "ha-services>=0.5.0",  # https://github.com/jedie/ha-services
