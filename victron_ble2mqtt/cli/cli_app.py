@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 import rich_click as click
-from bleak import BLEDevice
+from bleak import AdvertisementData, BLEDevice
 from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
 from cli_base.cli_tools.version_info import print_version
 from cli_base.systemd.api import ServiceControl
@@ -152,7 +152,7 @@ def systemd_setup(verbosity: int):
 @click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
 def systemd_remove(verbosity: int):
     """
-    Write Systemd service file, enable it and (re-)start the service. (May need sudo)
+    Remove Systemd service file. (May need sudo)
     """
     setup_logging(verbosity=verbosity)
     systemd_settings: SystemdServiceInfo = get_systemd_settings(verbosity)
@@ -243,7 +243,7 @@ def debug_read(verbosity: int, mac: str = None, key: str = None):
 
 
 @cli.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE | {'default': 2})
+@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE | {'default': 0})
 def publish_loop(verbosity: int):
     """
     Publish MQTT messages in endless loop (Entrypoint from systemd)
@@ -274,6 +274,11 @@ def publish_loop(verbosity: int):
                 verbosity=verbosity,
                 config_count=1,  # Send every time the config
             )
+            self.rssi = None
+
+        def _detection_callback(self, device: BLEDevice, advertisement: AdvertisementData):
+            self.rssi = advertisement.rssi
+            return super()._detection_callback(device, advertisement)
 
         def callback(self, ble_device: BLEDevice, raw_data: bytes):
             logger.debug(f"Received data from {ble_device.address.lower()}: {raw_data.hex()}")
@@ -293,14 +298,18 @@ def publish_loop(verbosity: int):
                     state_class=None,
                     unit=None,
                 ),
-                HaValue(
-                    name='RSSI',
-                    value=ble_device.rssi,
-                    device_class=None,
-                    state_class=None,
-                    unit=None,
-                ),
             ]
+
+            if self.rssi is not None:
+                values.append(
+                    HaValue(
+                        name='RSSI',
+                        value=self.rssi,
+                        device_class=None,
+                        state_class='measurement',
+                        unit=None,
+                    )
+                )
 
             try:
                 device = self.get_device(ble_device, raw_data)
