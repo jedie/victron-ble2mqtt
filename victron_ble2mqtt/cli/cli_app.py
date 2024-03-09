@@ -1,16 +1,22 @@
 """
     CLI for usage
 """
+
+import asyncio
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import rich_click as click
+from bleak import BLEDevice
+from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
 from cli_base.cli_tools.version_info import print_version
 from rich import print  # noqa
 from rich.console import Console
 from rich.traceback import install as rich_traceback_install
 from rich_click import RichGroup
+from victron_ble.scanner import BaseScanner
 
 import victron_ble2mqtt
 from victron_ble2mqtt import constants
@@ -61,6 +67,30 @@ def version():
 
 
 cli.add_command(version)
+
+
+@cli.command()
+@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE | {'default': 2})
+def discover(verbosity: int):
+    """
+    Discover Victron devices with Instant Readout
+    """
+    setup_logging(verbosity=verbosity)
+
+    class Scanner(BaseScanner):
+
+        def callback(self, device: BLEDevice, advertisement: bytes):
+            print(datetime.now())
+            data = dict(name=device.name, address=device.address, details=device.details)
+            print(data)
+
+    async def scan():
+        scanner = Scanner()
+        await scanner.start()
+
+    loop = asyncio.get_event_loop()
+    asyncio.ensure_future(scan())
+    loop.run_forever()
 
 
 def main():
