@@ -75,6 +75,8 @@ The easiest way to get the device key: Install the official Victron Smartphone a
 
 (I send the key via Signal as "my note" and use the Desktop Signal app to receive the key on my Computer)
 
+See also: https://community.victronenergy.com/questions/187303/victron-bluetooth-advertising-protocol.html
+
 ### setting
 
 Just call `edit-settings` command, e.g.:
