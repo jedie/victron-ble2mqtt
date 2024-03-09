@@ -1,4 +1,5 @@
 import dataclasses
+import sys
 
 from cli_base.systemd.data_classes import BaseSystemdServiceInfo, BaseSystemdServiceTemplateContext
 from ha_services.mqtt4homeassistant.data_classes import MqttSettings
@@ -11,6 +12,7 @@ class SystemdServiceTemplateContext(BaseSystemdServiceTemplateContext):
     """
 
     verbose_service_name: str = 'victron-ble2mqtt'
+    exec_start: str = f'{sys.argv[0]} publish-loop'
 
 
 @dataclasses.dataclass
