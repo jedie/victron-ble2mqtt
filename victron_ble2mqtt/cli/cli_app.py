@@ -33,6 +33,7 @@ from victron_ble2mqtt import constants
 from victron_ble2mqtt.mapping import VICTRON_VALUES
 from victron_ble2mqtt.user_settings import SystemdServiceInfo, UserSettings
 from victron_ble2mqtt.victron_ble_utils import values2dict
+from victron_ble2mqtt.wifi_info import get_wifi_info_ha_values
 
 
 logger = logging.getLogger(__name__)
@@ -327,6 +328,9 @@ def publish_loop(verbosity: int):
                         unit=None,
                     )
                 )
+
+            # Add information about WIFI quality:
+            values += get_wifi_info_ha_values()
 
             try:
                 device = self.get_device(ble_device, raw_data)
