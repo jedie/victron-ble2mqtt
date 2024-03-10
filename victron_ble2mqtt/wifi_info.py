@@ -104,7 +104,7 @@ def get_wifi_infos(*, verbosity: int = 1) -> list[WifiInfo]:
     return wifi_infos
 
 
-def get_wifi_info_ha_values(*, verbosity: int = 1) -> list[HaValue]:
+def get_wifi_info_ha_values(*, verbosity: int = 0) -> list[HaValue]:
     wifi_infos = get_wifi_infos(verbosity=verbosity)
 
     ha_values: list[HaValue] = []
