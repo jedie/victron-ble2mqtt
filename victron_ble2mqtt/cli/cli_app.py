@@ -330,7 +330,7 @@ def publish_loop(verbosity: int):
                 )
 
             # Add information about WIFI quality:
-            values += get_wifi_info_ha_values()
+            values += get_wifi_info_ha_values(verbosity=verbosity)
 
             try:
                 device = self.get_device(ble_device, raw_data)
