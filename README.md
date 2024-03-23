@@ -25,7 +25,7 @@ Tested with:
 
 `victron_ble` used [Bleak](https://pypi.org/project/bleak/) and the Linux backend of Bleak communicates with BlueZ over DBus. So you have to install this, e.g.:
 ```bash
-~$ audo apt install bluez
+~$ sudo apt install bluez
 ```
 
 ### Bootstrap
