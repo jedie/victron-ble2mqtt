@@ -4,8 +4,6 @@
 
 import asyncio
 import logging
-import os
-import socket
 import sys
 import time
 from datetime import datetime
@@ -17,9 +15,9 @@ from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
 from cli_base.cli_tools.version_info import print_version
 from cli_base.systemd.api import ServiceControl
 from cli_base.toml_settings.api import TomlSettings
-from ha_services.mqtt4homeassistant.converter import values2mqtt_payload
-from ha_services.mqtt4homeassistant.data_classes import HaValue, HaValues
-from ha_services.mqtt4homeassistant.mqtt import HaMqttPublisher
+from ha_services.mqtt4homeassistant.components.sensor import Sensor
+from ha_services.mqtt4homeassistant.device import MainMqttDevice
+from ha_services.mqtt4homeassistant.mqtt import get_connected_client
 from rich import print  # noqa
 from rich.console import Console
 from rich.traceback import install as rich_traceback_install
@@ -30,10 +28,9 @@ from victron_ble.scanner import BaseScanner, Scanner
 
 import victron_ble2mqtt
 from victron_ble2mqtt import constants
-from victron_ble2mqtt.mapping import VICTRON_VALUES
 from victron_ble2mqtt.user_settings import SystemdServiceInfo, UserSettings
 from victron_ble2mqtt.victron_ble_utils import values2dict
-from victron_ble2mqtt.wifi_info import get_wifi_info_ha_values
+from victron_ble2mqtt.wifi_info import WifiInfo2Mqtt
 
 
 logger = logging.getLogger(__name__)
@@ -223,6 +220,8 @@ def debug_read(verbosity: int, mac: str = None, key: str = None):
     Read data from specified devices and print them.
     MAC / KEY are used from config file, if not given.
     """
+    setup_logging(verbosity=verbosity)
+
     toml_settings: TomlSettings = get_settings()
     user_settings: UserSettings = toml_settings.get_user_settings(debug=verbosity > 1)
 
@@ -251,6 +250,8 @@ def publish_loop(verbosity: int):
     """
     Publish MQTT messages in endless loop (Entrypoint from systemd)
     """
+    setup_logging(verbosity=verbosity)
+
     toml_settings: TomlSettings = get_settings()
     user_settings: UserSettings = toml_settings.get_user_settings(debug=verbosity > 1)
 
@@ -272,13 +273,18 @@ def publish_loop(verbosity: int):
         ):
             super().__init__(device_keys)
 
-            self.publisher = HaMqttPublisher(
-                settings=user_settings.mqtt,
-                verbosity=verbosity,
-                config_count=1,  # Send every time the config
-            )
+            self.mqtt_client = get_connected_client(settings=user_settings.mqtt, verbosity=verbosity)
+            self.mqtt_client.loop_start()
+
+            self.verbosity = verbosity
+
+            self.device = None
+            self.device_address = None
+
+            self.wifi_info = None
+
             self.rssi = None
-            self.hostname = socket.gethostname()
+            self.rssi_sensor = None
 
         def _detection_callback(self, device: BLEDevice, advertisement: AdvertisementData):
             self.rssi = advertisement.rssi
@@ -287,50 +293,87 @@ def publish_loop(verbosity: int):
         def callback(self, ble_device: BLEDevice, raw_data: bytes):
             logger.debug(f"Received data from {ble_device.address.lower()}: {raw_data.hex()}")
 
-            values = [
-                HaValue(
-                    name='Hostname',
-                    value=self.hostname,
-                    device_class=None,
-                    state_class=None,
-                    unit=None,
-                ),
-                HaValue(
-                    name='System load 1min.',
-                    value=os.getloadavg()[0],
-                    device_class=None,
+            if self.device is None:
+                self.device = MainMqttDevice(
+                    name=user_settings.device_name,
+                    uid=user_settings.mqtt.main_uid,
+                    manufacturer='Victron Energy',
+                    model=ble_device.name,
+                    sw_version=None,  # TODO
+                    config_throttle_sec=user_settings.mqtt.publish_config_throttle_seconds,
+                )
+                self.rssi_sensor = Sensor(
+                    device=self.device,
+                    name='RSSI',
+                    uid='rssi',
                     state_class='measurement',
-                    unit=None,
-                ),
-                HaValue(
-                    name='Device Name',
-                    value=ble_device.name,
-                    device_class=None,
-                    state_class=None,
-                    unit=None,
-                ),
-                HaValue(
+                )
+                self.device_address = Sensor(
+                    device=self.device,
                     name='Device Address',
-                    value=ble_device.address,
-                    device_class=None,
-                    state_class=None,
-                    unit=None,
-                ),
-            ]
-
-            if self.rssi is not None:
-                values.append(
-                    HaValue(
-                        name='RSSI',
-                        value=self.rssi,
-                        device_class=None,
-                        state_class=None,
-                        unit=None,
-                    )
+                    uid='device_address',
                 )
 
-            # Add information about WIFI quality:
-            values += get_wifi_info_ha_values(verbosity=verbosity)
+                self.sensors = {
+                    'battery_charging_current': Sensor(
+                        device=self.device,
+                        name='Battery Charging',
+                        uid='battery_charging_current',
+                        device_class='current',
+                        state_class='measurement',
+                        unit_of_measurement='A',
+                    ),
+                    'battery_voltage': Sensor(
+                        device=self.device,
+                        name='Battery',
+                        uid='battery_voltage',
+                        device_class='voltage',
+                        state_class='measurement',
+                        unit_of_measurement='V',
+                    ),
+                    'charge_state': Sensor(
+                        device=self.device,
+                        uid='charge_state',
+                        name='Charge State',
+                    ),
+                    'external_device_load': Sensor(
+                        device=self.device,
+                        name='Load',
+                        uid='load',
+                        device_class='current',
+                        state_class='measurement',
+                        unit_of_measurement='A',
+                    ),
+                    'model_name': Sensor(
+                        device=self.device,
+                        uid='model_name',
+                        name='Model Name',
+                    ),
+                    'solar_power': Sensor(
+                        device=self.device,
+                        name='Solar',
+                        uid='solar_power',
+                        device_class='energy',
+                        state_class='measurement',
+                        unit_of_measurement='W',
+                    ),
+                    'yield_today': Sensor(
+                        device=self.device,
+                        name='Yield Today',
+                        uid='yield_today',
+                        device_class='energy',
+                        state_class='measurement',
+                        unit_of_measurement='Wh',
+                    ),
+                }
+
+                self.wifi_info = WifiInfo2Mqtt(device=self.device, verbosity=self.verbosity)
+
+            self.rssi_sensor.set_state(self.rssi)
+            self.device_address.set_state(ble_device.address)
+
+            # Information about WIFI quality:
+            self.wifi_info.poll_and_publish(self.mqtt_client)
 
             try:
                 device = self.get_device(ble_device, raw_data)
@@ -341,44 +384,12 @@ def publish_loop(verbosity: int):
                 data_dict = values2dict(data)
 
                 for key, value in data_dict.items():
-                    if value_info := VICTRON_VALUES.get(key):
-                        values.append(
-                            HaValue(
-                                name=value_info.name,
-                                value=value,
-                                device_class=value_info.device_class,
-                                state_class=value_info.state_class,
-                                unit=value_info.unit,
-                            )
-                        )
+
+                    if sensor := self.sensors.get(key):
+                        sensor.set_state(value)
+                        sensor.publish(self.mqtt_client)
                     else:
                         logger.warning(f'No mapping for: {key=} {value=}')
-                        values.append(
-                            HaValue(
-                                name=key,
-                                value=value,
-                                device_class='',
-                                state_class='',
-                                unit=None,
-                            )
-                        )
-
-            # Collect information:
-            ha_values = HaValues(
-                device_name=user_settings.device_name,
-                values=values,
-            )
-
-            # Create Payload:
-            ha_mqtt_payload = values2mqtt_payload(
-                values=ha_values,
-                name_prefix=ble_device.address,
-                default_device_class=None,
-                default_state_class=None,
-            )
-
-            # Send vial MQTT to HomeAssistant:
-            self.publisher.publish2homeassistant(ha_mqtt_payload=ha_mqtt_payload)
 
             time.sleep(1)
 
