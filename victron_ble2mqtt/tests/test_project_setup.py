@@ -7,7 +7,7 @@ from cli_base.cli_tools.code_style import assert_code_style
 from packaging.version import Version
 
 from victron_ble2mqtt import __version__
-from victron_ble2mqtt.cli.dev import PACKAGE_ROOT
+from victron_ble2mqtt.cli_dev import PACKAGE_ROOT
 
 
 class ProjectSetupTestCase(TestCase):

@@ -1,10 +1,14 @@
+#
+# TODO: Move to ha-services !
+#
 import dataclasses
 import logging
 import re
 
 from cli_base.cli_tools.subprocess_utils import verbose_check_output
-from ha_services.mqtt4homeassistant.data_classes import HaValue
-from rich import print  # noq
+from ha_services.mqtt4homeassistant.components.sensor import Sensor
+from ha_services.mqtt4homeassistant.device import MainMqttDevice
+from paho.mqtt.client import Client
 
 
 logger = logging.getLogger(__name__)
@@ -49,6 +53,7 @@ def _get_iwconfig_values(*, verbosity: int = 1) -> dict:
 
 @dataclasses.dataclass
 class WifiInfoValue:
+    slug: str
     name: str
     value: str | float | int
     unit: str | None
@@ -64,8 +69,8 @@ def _convert_iwconfig_values(iwconfig_values: dict) -> list[WifiInfo]:
     wifi_infos = []
     for device_name, values in iwconfig_values.items():
         device_values = []
-        for name, value in sorted(values.items()):
-            if name.endswith('_unit'):
+        for slug, value in sorted(values.items()):
+            if slug.endswith('_unit'):
                 continue
 
             if value.isdigit():  # e.g. '123' -> 123
@@ -77,9 +82,10 @@ def _convert_iwconfig_values(iwconfig_values: dict) -> list[WifiInfo]:
 
             device_values.append(
                 WifiInfoValue(
-                    name=name.replace('_', ' '),  # e.g. 'bit_rate' -> 'bit rate'
+                    slug=slug,
+                    name=slug.replace('_', ' ').capitalize(),  # e.g. 'bit_rate' -> 'Bit rate'
                     value=value,
-                    unit=values.get(f'{name}_unit'),
+                    unit=values.get(f'{slug}_unit'),
                 )
             )
 
@@ -99,51 +105,55 @@ def get_wifi_infos(*, verbosity: int = 1) -> list[WifiInfo]:
 
     wifi_infos = _convert_iwconfig_values(raw_values)
     logger.info('iwconfig values: %r', wifi_infos)
-    if verbosity:
-        print(wifi_infos)
     return wifi_infos
 
 
-def get_wifi_info_ha_values(*, verbosity: int = 0) -> list[HaValue]:
-    wifi_infos = get_wifi_infos(verbosity=verbosity)
+class WifiInfo2Mqtt:
+    def __init__(self, *, device: MainMqttDevice, verbosity: int):
+        self.device = device
+        self.verbosity = verbosity
 
-    ha_values: list[HaValue] = []
-
-    device_count = len(wifi_infos)
-    if device_count == 0:
-        logger.warning('No WiFi devices found')
-        return ha_values
-
-    if device_count > 1:
-        logger.warning('Multiple WiFi devices found, only the first one will be used')
-
-    wifi_info: WifiInfo = wifi_infos[0]
-
-    ha_values.append(
-        HaValue(
-            name='Device Name',
-            value=wifi_info.device_name,
-            device_class=None,
-            state_class=None,
-            unit=None,
+        self.wifi_device_name = Sensor(
+            device=self.device,
+            name='Wifi Device Name',
+            uid='wifi_device_name',
         )
-    )
+        self.sensors = {}
 
-    for wifi_info_value in wifi_info.values:
-        value = wifi_info_value.value  # e.g.: 'foobar', 29.2, ...
-        if isinstance(value, (int, float)):
-            state_class = 'measurement'
-        else:
-            state_class = None
+    def poll_and_publish(self, client: Client) -> None:
+        wifi_infos = get_wifi_infos(verbosity=self.verbosity)
 
-        ha_values.append(
-            HaValue(
-                name=wifi_info_value.name,  # e.g.: 'ESSID', 'bit rate', ...
-                value=value,
-                device_class=None,
-                state_class=state_class,
-                unit=wifi_info_value.unit,  # e.g.: None, 'Mb/s', ...
-            )
-        )
+        device_count = len(wifi_infos)
+        if device_count == 0:
+            logger.warning('No WiFi devices found')
+            return
 
-    return ha_values
+        if device_count > 1:
+            logger.warning('Multiple WiFi devices found, only the first one will be used')
+
+        wifi_info: WifiInfo = wifi_infos[0]
+
+        self.wifi_device_name.set_state(wifi_info.device_name)
+        self.wifi_device_name.publish(client)
+
+        for wifi_info_value in wifi_info.values:
+
+            value = wifi_info_value.value  # e.g.: 'foobar', 29.2, ...
+            if isinstance(value, (int, float)):
+                state_class = 'measurement'
+            else:
+                state_class = None
+
+            slug = wifi_info_value.slug  # e.g.: 'ESSID', 'bit_rate', ...
+            sensor = self.sensors.get(slug)
+            if not sensor:
+                sensor = self.sensors[slug] = Sensor(
+                    device=self.device,
+                    name=wifi_info_value.name,  # e.g.: 'ESSID', 'bit rate', ...
+                    uid=slug,
+                    state_class=state_class,
+                    unit_of_measurement=wifi_info_value.unit,  # e.g.: None, 'Mb/s', ...
+                )
+
+            sensor.set_state(value)
+            sensor.publish(client)
