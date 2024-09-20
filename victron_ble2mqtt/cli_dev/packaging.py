@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-import cli_base
 import click
 from cli_base.cli_tools.dev_tools import run_unittest_cli
 from cli_base.cli_tools.subprocess_utils import verbose_check_call
@@ -9,6 +8,7 @@ from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE
 from cli_base.run_pip_audit import run_pip_audit
 from manageprojects.utilities.publish import publish_package
 
+import victron_ble2mqtt
 from victron_ble2mqtt.cli_dev import PACKAGE_ROOT, cli
 
 
@@ -86,7 +86,6 @@ def publish():
     run_unittest_cli(verbose=False, exit_after_run=False)  # Don't publish a broken state
 
     publish_package(
-        module=cli_base,
+        module=victron_ble2mqtt,
         package_path=PACKAGE_ROOT,
-        distribution_name='cli-base-utilities',
     )
