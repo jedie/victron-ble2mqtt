@@ -38,6 +38,70 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 ~/victron-ble2mqtt$ ./cli.py --help
 ```
 
+
+# app CLI
+
+[comment]: <> (✂✂✂ auto generated app help start ✂✂✂)
+```
+Usage: ./cli.py [OPTIONS] COMMAND [ARGS]...
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help      Show this message and exit.                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ debug-read      Read data from specified devices and print them. MAC / KEY are used from config  │
+│                 file, if not given.                                                              │
+│ discover        Discover Victron devices with Instant Readout                                    │
+│ edit-settings   Edit the settings file. On first call: Create the default one.                   │
+│ print-settings  Display (anonymized) MQTT server username and password                           │
+│ publish-loop    Publish MQTT messages in endless loop (Entrypoint from systemd)                  │
+│ systemd-debug   Print Systemd service template + context + rendered file content.                │
+│ systemd-remove  Remove Systemd service file. (May need sudo)                                     │
+│ systemd-setup   Write Systemd service file, enable it and (re-)start the service. (May need      │
+│                 sudo)                                                                            │
+│ systemd-status  Display status of systemd service. (May need sudo)                               │
+│ systemd-stop    Stops the systemd service. (May need sudo)                                       │
+│ version         Print version and exit                                                           │
+│ wifi-info       Just display the WiFi info                                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+[comment]: <> (✂✂✂ auto generated app help end ✂✂✂)
+
+
+
+# dev CLI
+
+[comment]: <> (✂✂✂ auto generated dev help start ✂✂✂)
+```
+Usage: ./dev-cli.py [OPTIONS] COMMAND [ARGS]...
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help      Show this message and exit.                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ check-code-style            Check code style by calling darker + flake8                          │
+│ coverage                    Run tests and show coverage report.                                  │
+│ fix-code-style              Fix code style of all cli_base source code files via darker          │
+│ install                     Run pip-sync and install 'cli_base' via pip as editable.             │
+│ mypy                        Run Mypy (configured in pyproject.toml)                              │
+│ pip-audit                   Run pip-audit check against current requirements files               │
+│ publish                     Build and upload this project to PyPi                                │
+│ test                        Run unittests                                                        │
+│ tox                         Run tox                                                              │
+│ update                      Update "requirements*.txt" dependencies files                        │
+│ update-test-snapshot-files  Update all test snapshot files (by remove and recreate all snapshot  │
+│                             files)                                                               │
+│ version                     Print version and exit                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+[comment]: <> (✂✂✂ auto generated dev help end ✂✂✂)
+
+
+
+
+
+
+
 ### Setup Device
 
 Detect your device first, e.g.:
