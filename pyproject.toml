@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [
     {name = 'Jens Diemer', email = 'git@jensdiemer.de'}
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
     "ha-services>=0.5.0",  # https://github.com/jedie/ha-services
@@ -31,7 +31,7 @@ dev = [
     "pyflakes",  # https://github.com/PyCQA/pyflakes
     "codespell",  # https://github.com/codespell-project/codespell
     "EditorConfig",  # https://github.com/editorconfig/editorconfig-core-py
-    "safety",  # https://github.com/pyupio/safety
+    "pip-audit",  # https://github.com/pypa/pip-audit
     "mypy",  # https://github.com/python/mypy
     "twine",  # https://github.com/pypa/twine
     "typeguard",  # https://github.com/agronholm/typeguard/
@@ -42,11 +42,10 @@ dev = [
     # https://github.com/pygments/pygments
     "darker[flynt, isort, color]",
 
-    "tomli",  # https://github.com/hukkin/tomli
-    #
-    # tomli only needed for Python <3.11, but see pip bug:
-    # https://github.com/pypa/pip/issues/9644 / https://github.com/jazzband/pip-tools/issues/1866
-    #'tomli;python_version<"3.11"',  # https://github.com/hukkin/tomli
+    # Work-a-round for: https://github.com/jazzband/pip-tools/issues/1866
+    # see also: https://github.com/jazzband/pip-tools/issues/994#issuecomment-1321226661
+    # backports.tarfile is needed for python <3.12
+    'backports.tarfile', # via jaraco-context -> keyring -> twine
 ]
 
 [project.urls]
@@ -55,7 +54,7 @@ Source = "https://github.com/jedie/victron-ble2mqtt"
 
 [project.scripts]
 victron_ble2mqtt_app = "victron_ble2mqtt.__main__:main"
-victron_ble2mqtt_dev = "victron_ble2mqtt.cli.dev:main"
+victron_ble2mqtt_dev = "victron_ble2mqtt.cli_dev:main"
 
 [build-system]
 requires = ["setuptools>=61.0", "setuptools_scm>=7.1"]
@@ -67,6 +66,13 @@ include = ["victron_ble2mqtt*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "victron_ble2mqtt.__version__"}
+
+
+[tool.cli_base.pip_audit]
+requirements=["requirements.dev.txt"]
+strict=true
+require_hashes=true
+ignore-vuln=[]
 
 
 [tool.darker]
@@ -119,7 +125,7 @@ exclude_lines = [
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = py{312,311,310}
+envlist = py{312,311}
 skip_missing_interpreters = True
 
 [testenv]
@@ -147,6 +153,9 @@ initial_revision = "9e29a86"
 initial_date = 2024-02-29T22:32:49+01:00
 cookiecutter_template = "https://github.com/jedie/cookiecutter_templates/"
 cookiecutter_directory = "piptools-python"
+applied_migrations = [
+    "935485b", # 2024-09-09T10:39:39+02:00
+]
 
 [manageprojects.cookiecutter_context.cookiecutter]
 full_name = "Jens Diemer"
