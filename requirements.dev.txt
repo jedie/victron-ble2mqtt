@@ -80,7 +80,7 @@ bx-py-utils==102 \
     # via
     #   cli-base-utilities
     #   victron_ble2mqtt (pyproject.toml)
-cachecontrol[filecache]==0.14.0 \
+cachecontrol==0.14.0 \
     --hash=sha256:7db1195b41c81f8274a7bbd97c956f44e8348265a1bc7641c37dfebc39f0c938 \
     --hash=sha256:f5bf3f0620c38db2e5122c0726bdebb0d16869de966ea6a2befe92470b740ea0
     # via
@@ -406,7 +406,7 @@ cyclonedx-python-lib==7.6.1 \
     --hash=sha256:42e510e957c2ce9c71dd33020e43ce53fe6d0c854cfdc3c56e854e9461e846eb \
     --hash=sha256:6570f14ad191c4c2a87032f4fb0fc913e5c37a43a577898daeb42a3079e52126
     # via pip-audit
-darker[color,flynt,isort]==2.1.1 \
+darker==2.1.1 \
     --hash=sha256:a6e6a682c0604e76fe9aec7650e96a944f517563c69b28fcc076db9d957d98ea \
     --hash=sha256:ead701414c45359fc0312bc285614d3285fc135476d43f3bc08d989ee19d9020
     # via

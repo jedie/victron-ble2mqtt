@@ -44,14 +44,7 @@ def update():
         CUSTOM_COMPILE_COMMAND='./dev-cli.py update',
     )
 
-    pip_compile_base = [
-        bin_path / 'pip-compile',
-        '--verbose',
-        '--allow-unsafe',  # https://pip-tools.readthedocs.io/en/latest/#deprecations
-        '--resolver=backtracking',  # https://pip-tools.readthedocs.io/en/latest/#deprecations
-        '--upgrade',
-        '--generate-hashes',
-    ]
+    pip_compile_base = [bin_path / 'pip-compile', '--verbose', '--upgrade']
 
     # Only "prod" dependencies:
     verbose_check_call(
