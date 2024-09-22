@@ -106,9 +106,9 @@ frozendict==2.4.4 \
     --hash=sha256:e1b941132d79ce72d562a13341d38fc217bc1ee24d8c35a20d754e79ff99e038 \
     --hash=sha256:fefeb700bc7eb8b4c2dc48704e4221860d254c8989fb53488540bc44e44a1ac2
     # via ha-services
-ha-services==2.6.0 \
-    --hash=sha256:55468ad8454e0b87a1f0ec5b934b1c98d864a1ae200faf4bdc3efd5c8c61c963 \
-    --hash=sha256:d6887bdfda0a014ca4cf77fa08897604db0692d680fe1a7cc7c72644fdd288db
+ha-services==2.7.0 \
+    --hash=sha256:5e7ce801a878b6643d8c5edffd2683e59525d7d66464604c22cbd6906747959a \
+    --hash=sha256:bbb02d35664afe941c2ae3302cbabe0c782b31da4d44ec5a035ce74517a99b9b
     # via victron_ble2mqtt (pyproject.toml)
 markdown-it-py==3.0.0 \
     --hash=sha256:355216845c60bd96232cd8d8c40e8f9765cc86f46880e43a8fd22dc1a1a8cab1 \

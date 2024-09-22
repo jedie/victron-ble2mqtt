@@ -11,6 +11,7 @@ from bleak import BLEDevice
 from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
 from cli_base.toml_settings.api import TomlSettings
 from rich import print  # noqa
+from victron_ble.devices import detect_device_type
 from victron_ble.scanner import BaseScanner, Scanner
 
 from victron_ble2mqtt.cli_app import cli
@@ -31,10 +32,14 @@ def discover(verbosity: int):
 
     class Scanner(BaseScanner):
 
-        def callback(self, device: BLEDevice, advertisement: bytes):
+        def callback(self, device: BLEDevice, raw_data: bytes):
             print(datetime.now())
             data = dict(name=device.name, address=device.address, details=device.details)
             print(data)
+            if DeviceClass := detect_device_type(raw_data):
+                print(f'Device type: {DeviceClass.__name__}')
+            else:
+                print(f'Unknown device type: {raw_data.hex()}')
 
     async def scan():
         scanner = Scanner()

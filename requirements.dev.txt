@@ -532,9 +532,9 @@ graylint==1.1.1 \
     --hash=sha256:0fd8e02972ca03d0ef2bf0adea76b5343efcd492d7afb5f658f3e3a724f55a36 \
     --hash=sha256:b7e0eab6c159684dbf5ef84e942c3340f6a6549b02a3d11b1a1763cc4f8f0593
     # via darker
-ha-services==2.6.0 \
-    --hash=sha256:55468ad8454e0b87a1f0ec5b934b1c98d864a1ae200faf4bdc3efd5c8c61c963 \
-    --hash=sha256:d6887bdfda0a014ca4cf77fa08897604db0692d680fe1a7cc7c72644fdd288db
+ha-services==2.7.0 \
+    --hash=sha256:5e7ce801a878b6643d8c5edffd2683e59525d7d66464604c22cbd6906747959a \
+    --hash=sha256:bbb02d35664afe941c2ae3302cbabe0c782b31da4d44ec5a035ce74517a99b9b
     # via victron_ble2mqtt (pyproject.toml)
 html5lib==1.1 \
     --hash=sha256:0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d \
@@ -574,9 +574,9 @@ jinja2==3.1.4 \
     --hash=sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369 \
     --hash=sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d
     # via cookiecutter
-keyring==25.4.0 \
-    --hash=sha256:a2a630d5c9bef5d3f0968d15ef4e42b894a83e17494edcb67b154c36491c9920 \
-    --hash=sha256:ae8263fd9264c94f91ad82d098f8a5bb1b7fa71ce0a72388dc4fc0be3f6a034e
+keyring==25.4.1 \
+    --hash=sha256:5426f817cf7f6f007ba5ec722b1bcad95a75b27d780343772ad76b17cb47b0bf \
+    --hash=sha256:b07ebc55f3e8ed86ac81dd31ef14e81ace9dd9c3d4b5d77a6e9a2016d0d71a1b
     # via twine
 license-expression==30.3.1 \
     --hash=sha256:60d5bec1f3364c256a92b9a08583d7ea933c7aa272c8d36d04144a89a3858c01 \
