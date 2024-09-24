@@ -4,7 +4,6 @@
 
 import asyncio
 import logging
-import time
 
 import rich_click as click
 from bleak import AdvertisementData, BLEDevice
@@ -97,8 +96,6 @@ def publish_loop(verbosity: int):
             #             sensor.publish(self.mqtt_client)
             #         else:
             #             logger.warning(f'No mapping for: {key=} {value=}')
-
-            time.sleep(1)
 
     async def scan(*, keys: list[str], user_settings: UserSettings):
         scanner = MqttPublisher(
