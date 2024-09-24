@@ -29,14 +29,15 @@ class UserSettings:
     """
     Victron-BLE -> MQTT - settings
 
-    Note: Insert at least device address + key and your MQTT settings.
+    Note: Insert at least our "device_keys" and your MQTT settings.
 
     See README for more information.
     """
 
     device_name: str = 'Victron'
-    device_address: str = '<device MAC address>'
-    device_key: str = '<insert your device key here>'
+
+    # Add device keys here:
+    device_keys: list[str] = dataclasses.field(default_factory=list)
 
     # Information about the MQTT server:
     mqtt: dataclasses = dataclasses.field(default_factory=MqttSettings)
