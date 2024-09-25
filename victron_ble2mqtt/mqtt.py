@@ -74,6 +74,41 @@ class BaseHandler:
                 logger.warning(f'No sensor for key: {key}')
 
 
+def calc_midpoint_shift(voltage: float, midpoint_voltage: float) -> float:
+    """
+    Calculate the midpoint shift in percent.
+
+    >>> calc_midpoint_shift(100, 50)
+    0.0
+    >>> round(calc_midpoint_shift(26.7, 13.2),3)
+    0.15
+    >>> round(calc_midpoint_shift(100, 50.1),3)
+    0.1
+    >>> round(calc_midpoint_shift(100, 49.9),3)
+    0.1
+    """
+    return abs((voltage / 2) - midpoint_voltage)
+
+
+def calc_midpoint_shift_percent(voltage: float, midpoint_voltage: float) -> float:
+    """
+    Calculate the midpoint shift in percent.
+
+    >>> calc_midpoint_shift_percent(100, 50)
+    0.0
+    >>> round(calc_midpoint_shift_percent(26.7, 13.2),3)
+    0.89
+    >>> calc_midpoint_shift_percent(100, 51)
+    0.5
+    >>> calc_midpoint_shift_percent(100, 49)
+    0.5
+    """
+    try:
+        return abs(voltage / ((midpoint_voltage * 2) - voltage) / 100)
+    except ZeroDivisionError:
+        return 0.0
+
+
 class BatteryMonitorHandler(BaseHandler):
     VictronDeviceClass = BatteryMonitor
     # example_data = {
@@ -163,6 +198,25 @@ class BatteryMonitorHandler(BaseHandler):
             suggested_display_precision=2,
         )
 
+        if data_dict.get('aux_mode', None) == 'midpoint_voltage':
+            self.midpoint_shift = Sensor(
+                device=self.device,
+                name='Midpoint Shift',
+                uid='midpoint_shift',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            )
+            self.midpoint_shift_percent = Sensor(
+                device=self.device,
+                name='Midpoint Shift',
+                uid='midpoint_shift_percent',
+                state_class='measurement',
+                unit_of_measurement='%',
+                suggested_display_precision=2,
+            )
+
     def publish(self, *, data_dict: dict, rssi: int | None) -> None:
         super().publish(data_dict=data_dict, rssi=rssi)
 
@@ -170,6 +224,15 @@ class BatteryMonitorHandler(BaseHandler):
 
         self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
         self.power_sensor.publish(self.mqtt_client)
+
+        if data_dict.get('aux_mode', None) == 'midpoint_voltage':
+            midpoint_shift = calc_midpoint_shift(data_dict['voltage'], data_dict['midpoint_voltage'])
+            self.midpoint_shift.set_state(midpoint_shift)
+            self.midpoint_shift.publish(self.mqtt_client)
+
+            midpoint_shift_percent = calc_midpoint_shift_percent(data_dict['voltage'], data_dict['midpoint_voltage'])
+            self.midpoint_shift_percent.set_state(midpoint_shift_percent)
+            self.midpoint_shift_percent.publish(self.mqtt_client)
 
 
 class SolarChargerHandler(BaseHandler):
