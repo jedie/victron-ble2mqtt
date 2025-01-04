@@ -250,7 +250,8 @@ class SolarChargerHandler(BaseHandler):
     #     'battery_charging_current': 0.8,
     #     'battery_voltage': 25.91,
     #     'charge_state': 'bulk',
-    #     'external_device_load': 0.0,
+    #     'charger_error': 'no_error',
+    #     'external_device_load': 0.0,  # existence depending on victron device
     #     'model_name': 'SmartSolar MPPT 100|20 48V',
     #     'solar_power': 22,
     #     'yield_today': 330,
@@ -284,6 +285,11 @@ class SolarChargerHandler(BaseHandler):
                 uid='charge_state',
                 name='Charge State',
             ),
+            'charger_error': Sensor(
+                device=self.device,
+                uid='charger_error',
+                name='Charger Error',
+            ),
             'solar_power': Sensor(
                 device=self.device,
                 name='Solar',
@@ -304,8 +310,11 @@ class SolarChargerHandler(BaseHandler):
             ),
         }
 
+        ####################################################################################
+        # Extra sensors
+
         if data_dict.get('external_device_load'):
-            self.sensors['external_device_load'] = Sensor(
+            self.external_device_load = Sensor(
                 device=self.device,
                 name='Load',
                 uid='load',
@@ -314,10 +323,6 @@ class SolarChargerHandler(BaseHandler):
                 unit_of_measurement='A',
                 suggested_display_precision=1,
             )
-
-        ####################################################################################
-        # Extra sensors
-
         self.charging_power = Sensor(
             device=self.device,
             name='Charging Power',
@@ -345,8 +350,9 @@ class SolarChargerHandler(BaseHandler):
         self.charging_power.set_state(data_dict['battery_voltage'] * data_dict['battery_charging_current'])
         self.charging_power.publish(self.mqtt_client)
 
-        self.load_power.set_state(data_dict['battery_voltage'] * data_dict['external_device_load'])
-        self.load_power.publish(self.mqtt_client)
+        if data_dict.get('external_device_load'):
+            self.load_power.set_state(data_dict['battery_voltage'] * data_dict['external_device_load'])
+            self.load_power.publish(self.mqtt_client)
 
 
 class DcDcConverterHandler(BaseHandler):
@@ -368,19 +374,11 @@ class DcDcConverterHandler(BaseHandler):
                 device=self.device,
                 name='Charge State',
                 uid='charge_state',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'charger_error': Sensor(
                 device=self.device,
                 name='Charge Error',
                 uid='charger_error',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'input_voltage': Sensor(
                 device=self.device,
@@ -404,10 +402,6 @@ class DcDcConverterHandler(BaseHandler):
                 device=self.device,
                 name='Off Reason',
                 uid='off_reason',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
         }
 
@@ -421,11 +415,11 @@ class SmartBatteryProtectHandler(BaseHandler):
     #     'alarm_reason': 'no_alarm',
     #     'device_state': 'active',
     #     'error_code': 'no_error',
-    #     'input_voltage': 13.3,
-    #     'model_name': '<Unknown device: 41905>',
+    #     'input_voltage': 13.28,
+    #     'model_name': 'Smart BatteryProtect 12/24V-100A',
     #     'off_reason': 'no_reason',
     #     'output_state': 'on',
-    #     'output_voltage': 13.3,
+    #     'output_voltage': 13.28,
     #     'warning_reason': 'no_alarm'
     # }
 
@@ -437,28 +431,16 @@ class SmartBatteryProtectHandler(BaseHandler):
                 device=self.device,
                 name='Alarm Reason',
                 uid='alarm_reason',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'device_state': Sensor(
                 device=self.device,
                 name='Device State',
                 uid='device_state',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'error_code': Sensor(
                 device=self.device,
                 name='Error Code',
                 uid='error_code',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'input_voltage': Sensor(
                 device=self.device,
@@ -473,19 +455,11 @@ class SmartBatteryProtectHandler(BaseHandler):
                 device=self.device,
                 name='Off Reason',
                 uid='off_reason',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'output_state': Sensor(
                 device=self.device,
                 name='Output State',
                 uid='output_state',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
             'output_voltage': Sensor(
                 device=self.device,
@@ -500,10 +474,6 @@ class SmartBatteryProtectHandler(BaseHandler):
                 device=self.device,
                 name='Warning Reason',
                 uid='warning_reason',
-                device_class=None,
-                state_class=None,
-                unit_of_measurement=None,
-                suggested_display_precision=None,
             ),
         }
 
@@ -615,8 +585,50 @@ class AcChargerHandler(BaseHandler):
             ),
         }
 
+        ####################################################################################
+        # Extra sensors
+
+        self.output_power1 = Sensor(
+            device=self.device,
+            name='Output Power 1',
+            uid='output_power1',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+        self.output_power2 = Sensor(
+            device=self.device,
+            name='Output Power 2',
+            uid='output_power2',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+        self.output_power3 = Sensor(
+            device=self.device,
+            name='Output Power 3',
+            uid='output_power3',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+
+
     def publish(self, *, data_dict: dict, rssi: int | None) -> None:
         super().publish(data_dict=data_dict, rssi=rssi)
+
+        # Extra sensors
+        self.output_power1.set_state(data_dict['output_voltage1'] * data_dict['output_current1'])
+        self.output_power1.publish(self.mqtt_client)
+
+        self.output_power2.set_state(data_dict['output_voltage2'] * data_dict['output_current2'])
+        self.output_power2.publish(self.mqtt_client)
+
+        self.output_power3.set_state(data_dict['output_voltage3'] * data_dict['output_current3'])
+        self.output_power3.publish(self.mqtt_client)
 
 
 class FallbackHandler(BaseHandler):
@@ -640,10 +652,10 @@ class FallbackHandler(BaseHandler):
 
 VICRON_DEVICE_HANDLERS = (
     BatteryMonitorHandler,
-    AcChargerHandler,
-    DcDcConverterHandler,
     SmartBatteryProtectHandler,
+    AcChargerHandler,
     SolarChargerHandler,
+    DcDcConverterHandler,
 )
 
 
