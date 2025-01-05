@@ -113,7 +113,7 @@ class BatteryMonitorHandler(BaseHandler):
     VictronDeviceClass = BatteryMonitor
     # example_data = {
     #     'aux_mode': 'midpoint_voltage',
-    #     'consumed_ah': 0.0,
+    #     'consumed_ah': 0.0,  # device class "electricity" Ah not supported by HASS - convert to "energy" Wh
     #     'current': 1.343,  # not existing in 'Smart Battery Sense'
     #     'midpoint_voltage': 13.03,
     #     'model_name': 'SmartShunt 500A/50mV',
@@ -132,15 +132,15 @@ class BatteryMonitorHandler(BaseHandler):
                 name='Auxiliary Mode',
                 uid='aux_mode',
             ),
-            'consumed_ah': Sensor(
-                device=self.device,
-                name='Consumed Ah',
-                uid='consumed_ah',
-                device_class='electricity',
-                state_class='measurement',
-                unit_of_measurement='Ah',
-                suggested_display_precision=1,
-            ),
+            # 'consumed_ah': Sensor(
+            #    device=self.device,
+            #    name='Consumed Ah',
+            #    uid='consumed_ah',
+            #    device_class='electricity',
+            #    state_class='measurement',
+            #    unit_of_measurement='Ah',
+            #    suggested_display_precision=1,
+            #),
             'current': Sensor(
                 device=self.device,
                 name='Current',
@@ -208,6 +208,17 @@ class BatteryMonitorHandler(BaseHandler):
                 suggested_display_precision=2,
             )
 
+        if data_dict.get('consumed_ah'):
+            self.consumed_wh = Sensor(
+                device=self.device,
+                name='Consumed Energy',
+                uid='consumed_wh',
+                device_class='energy',
+                state_class='measurement',
+                unit_of_measurement='Wh',
+                suggested_display_precision=0,
+            )
+
         if data_dict.get('aux_mode', None) == 'midpoint_voltage':
             self.midpoint_shift = Sensor(
                 device=self.device,
@@ -231,6 +242,10 @@ class BatteryMonitorHandler(BaseHandler):
         super().publish(data_dict=data_dict, rssi=rssi)
 
         # Extra sensors
+
+        if data_dict.get('consumed_ah'):
+            self.consumed_wh.set_state(data_dict['voltage'] * data_dict['consumed_ah'])
+            self.consumed_wh.publish(self.mqtt_client)
 
         if data_dict.get('current'):
             self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
