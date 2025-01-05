@@ -114,7 +114,7 @@ class BatteryMonitorHandler(BaseHandler):
     # example_data = {
     #     'aux_mode': 'midpoint_voltage',
     #     'consumed_ah': 0.0,
-    #     'current': 1.343,
+    #     'current': 1.343,  # not existing in 'Smart Battery Sense'
     #     'midpoint_voltage': 13.03,
     #     'model_name': 'SmartShunt 500A/50mV',
     #     'remaining_mins': 65535,
@@ -197,15 +197,16 @@ class BatteryMonitorHandler(BaseHandler):
         ####################################################################################
         # Extra sensors
 
-        self.power_sensor = Sensor(
-            device=self.device,
-            name='Power',
-            uid='power',
-            device_class='power',
-            state_class='measurement',
-            unit_of_measurement='W',
-            suggested_display_precision=2,
-        )
+        if data_dict.get('current'):
+            self.power_sensor = Sensor(
+                device=self.device,
+                name='Power',
+                uid='power',
+                device_class='power',
+                state_class='measurement',
+                unit_of_measurement='W',
+                suggested_display_precision=2,
+            )
 
         if data_dict.get('aux_mode', None) == 'midpoint_voltage':
             self.midpoint_shift = Sensor(
@@ -231,8 +232,9 @@ class BatteryMonitorHandler(BaseHandler):
 
         # Extra sensors
 
-        self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
-        self.power_sensor.publish(self.mqtt_client)
+        if data_dict.get('current'):
+            self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
+            self.power_sensor.publish(self.mqtt_client)
 
         if data_dict.get('aux_mode', None) == 'midpoint_voltage':
             midpoint_shift = calc_midpoint_shift(data_dict['voltage'], data_dict['midpoint_voltage'])
