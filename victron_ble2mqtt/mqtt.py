@@ -5,7 +5,7 @@ from bleak import BLEDevice
 from ha_services.mqtt4homeassistant.components.sensor import Sensor
 from ha_services.mqtt4homeassistant.device import MainMqttDevice, MqttDevice
 from paho.mqtt.client import Client
-from victron_ble.devices import BatteryMonitor, Device, SolarCharger
+from victron_ble.devices import AcCharger, BatteryMonitor, DcDcConverter, Device, SmartBatteryProtect, SolarCharger
 
 import victron_ble2mqtt
 from victron_ble2mqtt.user_settings import UserSettings
@@ -46,6 +46,8 @@ class BaseHandler:
             uid=uid,
             manufacturer='Victron Energy',
             model=data_dict['model_name'],  # e.g.: 'SmartSolar MPPT 100|20 48V' | 'SmartShunt 500A/50mV',
+            mqtt_retain=self.user_settings.mqtt.retain,
+            mqtt_qos=self.user_settings.mqtt.qos,
         )
         self.rssi_sensor = Sensor(
             device=self.device,
@@ -113,8 +115,8 @@ class BatteryMonitorHandler(BaseHandler):
     VictronDeviceClass = BatteryMonitor
     # example_data = {
     #     'aux_mode': 'midpoint_voltage',
-    #     'consumed_ah': 0.0,
-    #     'current': 1.343,
+    #     'consumed_ah': 0.0,  # device class "electricity" Ah not supported by HASS - convert to "energy" Wh
+    #     'current': 1.343,  # not existing in 'Smart Battery Sense'
     #     'midpoint_voltage': 13.03,
     #     'model_name': 'SmartShunt 500A/50mV',
     #     'remaining_mins': 65535,
@@ -132,15 +134,16 @@ class BatteryMonitorHandler(BaseHandler):
                 name='Auxiliary Mode',
                 uid='aux_mode',
             ),
-            'consumed_ah': Sensor(
-                device=self.device,
-                name='Consumed Ah',
-                uid='consumed_ah',
-                device_class='electricity',
-                state_class='measurement',
-                unit_of_measurement='Ah',
-                suggested_display_precision=1,
-            ),
+            # device class "electricity" Ah not supported by HASS - convert to "energy" Wh
+            # 'consumed_ah': Sensor(
+            #    device=self.device,
+            #    name='Consumed Ah',
+            #    uid='consumed_ah',
+            #    device_class='electricity',
+            #    state_class='measurement',
+            #    unit_of_measurement='Ah',
+            #    suggested_display_precision=1,
+            # ),
             'current': Sensor(
                 device=self.device,
                 name='Current',
@@ -184,19 +187,40 @@ class BatteryMonitorHandler(BaseHandler):
                 unit_of_measurement='V',
                 suggested_display_precision=2,
             ),
+            'temperature': Sensor(
+                device=self.device,
+                name='Temperature',
+                uid='temperature',
+                device_class='temperature',
+                state_class='measurement',
+                unit_of_measurement='°C',
+                suggested_display_precision=1,
+            ),
         }
         ####################################################################################
         # Extra sensors
 
-        self.power_sensor = Sensor(
-            device=self.device,
-            name='Power',
-            uid='power',
-            device_class='power',
-            state_class='measurement',
-            unit_of_measurement='W',
-            suggested_display_precision=2,
-        )
+        if data_dict.get('current'):
+            self.power_sensor = Sensor(
+                device=self.device,
+                name='Power',
+                uid='power',
+                device_class='power',
+                state_class='measurement',
+                unit_of_measurement='W',
+                suggested_display_precision=2,
+            )
+
+        if data_dict.get('consumed_ah'):
+            self.consumed_wh = Sensor(
+                device=self.device,
+                name='Consumed Energy',
+                uid='consumed_wh',
+                device_class='energy',
+                state_class='total',  # using 'total' for class energy (last_reset problem for increase only values)
+                unit_of_measurement='Wh',
+                suggested_display_precision=0,
+            )
 
         if data_dict.get('aux_mode', None) == 'midpoint_voltage':
             self.midpoint_shift = Sensor(
@@ -222,8 +246,14 @@ class BatteryMonitorHandler(BaseHandler):
 
         # Extra sensors
 
-        self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
-        self.power_sensor.publish(self.mqtt_client)
+        if data_dict.get('consumed_ah'):
+            # use positive value for Home Assistant energy dashboard
+            self.consumed_wh.set_state(data_dict['voltage'] * data_dict['consumed_ah'] * -1)
+            self.consumed_wh.publish(self.mqtt_client)
+
+        if data_dict.get('current'):
+            self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
+            self.power_sensor.publish(self.mqtt_client)
 
         if data_dict.get('aux_mode', None) == 'midpoint_voltage':
             midpoint_shift = calc_midpoint_shift(data_dict['voltage'], data_dict['midpoint_voltage'])
@@ -241,7 +271,8 @@ class SolarChargerHandler(BaseHandler):
     #     'battery_charging_current': 0.8,
     #     'battery_voltage': 25.91,
     #     'charge_state': 'bulk',
-    #     'external_device_load': 0.0,
+    #     'charger_error': 'no_error',
+    #     'external_device_load': 0.0,  # existence depending on victron device
     #     'model_name': 'SmartSolar MPPT 100|20 48V',
     #     'solar_power': 22,
     #     'yield_today': 330,
@@ -275,14 +306,10 @@ class SolarChargerHandler(BaseHandler):
                 uid='charge_state',
                 name='Charge State',
             ),
-            'external_device_load': Sensor(
+            'charger_error': Sensor(
                 device=self.device,
-                name='Load',
-                uid='load',
-                device_class='current',
-                state_class='measurement',
-                unit_of_measurement='A',
-                suggested_display_precision=1,
+                uid='charger_error',
+                name='Charger Error',
             ),
             'solar_power': Sensor(
                 device=self.device,
@@ -298,14 +325,25 @@ class SolarChargerHandler(BaseHandler):
                 name='Yield Today',
                 uid='yield_today',
                 device_class='energy',
-                state_class='measurement',
+                state_class='total',  # using 'total' for class energy (last_reset problem for increase only values)
                 unit_of_measurement='Wh',
                 suggested_display_precision=0,
             ),
         }
+
         ####################################################################################
         # Extra sensors
 
+        if data_dict.get('external_device_load'):
+            self.external_device_load = Sensor(
+                device=self.device,
+                name='Load',
+                uid='load',
+                device_class='current',
+                state_class='measurement',
+                unit_of_measurement='A',
+                suggested_display_precision=1,
+            )
         self.charging_power = Sensor(
             device=self.device,
             name='Charging Power',
@@ -333,8 +371,284 @@ class SolarChargerHandler(BaseHandler):
         self.charging_power.set_state(data_dict['battery_voltage'] * data_dict['battery_charging_current'])
         self.charging_power.publish(self.mqtt_client)
 
-        self.load_power.set_state(data_dict['battery_voltage'] * data_dict['external_device_load'])
-        self.load_power.publish(self.mqtt_client)
+        if data_dict.get('external_device_load'):
+            self.load_power.set_state(data_dict['battery_voltage'] * data_dict['external_device_load'])
+            self.load_power.publish(self.mqtt_client)
+
+
+class DcDcConverterHandler(BaseHandler):
+    VictronDeviceClass = DcDcConverter
+    # example_data = {
+    #     'charge_state': 'off',
+    #     'charger_error': 'no_error',
+    #     'input_voltage': 11.36,
+    #     'model_name': 'Orion Smart 12V|12V-30A Non-isolated DC-DC Charger',
+    #     'off_reason': 'engine_shutdown_and_input_voltage_lockout',
+    #     'output_voltage': 0
+    # }
+
+    def setup(self, *, data_dict):
+        super().setup(data_dict=data_dict)
+
+        self.sensors = {
+            'charge_state': Sensor(
+                device=self.device,
+                name='Charge State',
+                uid='charge_state',
+            ),
+            'charger_error': Sensor(
+                device=self.device,
+                name='Charge Error',
+                uid='charger_error',
+            ),
+            'input_voltage': Sensor(
+                device=self.device,
+                name='Input Voltage',
+                uid='input_voltage',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=1,
+            ),
+            'output_voltage': Sensor(
+                device=self.device,
+                name='Output Voltage',
+                uid='output_voltage',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=1,
+            ),
+            'off_reason': Sensor(
+                device=self.device,
+                name='Off Reason',
+                uid='off_reason',
+            ),
+        }
+
+    def publish(self, *, data_dict: dict, rssi: int | None) -> None:
+        super().publish(data_dict=data_dict, rssi=rssi)
+
+
+class SmartBatteryProtectHandler(BaseHandler):
+    VictronDeviceClass = SmartBatteryProtect
+    # example_data = {
+    #     'alarm_reason': 'no_alarm',
+    #     'device_state': 'active',
+    #     'error_code': 'no_error',
+    #     'input_voltage': 13.28,
+    #     'model_name': 'Smart BatteryProtect 12/24V-100A',
+    #     'off_reason': 'no_reason',
+    #     'output_state': 'on',
+    #     'output_voltage': 13.28,
+    #     'warning_reason': 'no_alarm'
+    # }
+
+    def setup(self, *, data_dict):
+        super().setup(data_dict=data_dict)
+
+        self.sensors = {
+            'alarm_reason': Sensor(
+                device=self.device,
+                name='Alarm Reason',
+                uid='alarm_reason',
+            ),
+            'device_state': Sensor(
+                device=self.device,
+                name='Device State',
+                uid='device_state',
+            ),
+            'error_code': Sensor(
+                device=self.device,
+                name='Error Code',
+                uid='error_code',
+            ),
+            'input_voltage': Sensor(
+                device=self.device,
+                name='Input Voltage',
+                uid='input_voltage',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            ),
+            'off_reason': Sensor(
+                device=self.device,
+                name='Off Reason',
+                uid='off_reason',
+            ),
+            'output_state': Sensor(
+                device=self.device,
+                name='Output State',
+                uid='output_state',
+            ),
+            'output_voltage': Sensor(
+                device=self.device,
+                name='Output Voltage',
+                uid='output_voltage',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            ),
+            'warning_reason': Sensor(
+                device=self.device,
+                name='Warning Reason',
+                uid='warning_reason',
+            ),
+        }
+
+    def publish(self, *, data_dict: dict, rssi: int | None) -> None:
+        super().publish(data_dict=data_dict, rssi=rssi)
+
+
+class AcChargerHandler(BaseHandler):
+    VictronDeviceClass = AcCharger
+    # example_data = {
+    #     'ac_current': -0.1,
+    #     'output_current1': 1.0,
+    #     'output_current2': -0.1,
+    #     'output_current3': -0.1,
+    #     'output_voltage1': 13.51,
+    #     'output_voltage2': -0.01,
+    #     'output_voltage3': -0.01,
+    #     'charge_state': 'float',
+    #     'charger_error': 'no_error',
+    #     'model_name': 'Phoenix Smart IP43 Charger 12|30 (1+1)',
+    #     'temperature': 8
+    # }
+
+    def setup(self, *, data_dict):
+        super().setup(data_dict=data_dict)
+
+        self.sensors = {
+            'charge_state': Sensor(
+                device=self.device,
+                name='Charge State',
+                uid='charge_state',
+            ),
+            'charger_error': Sensor(
+                device=self.device,
+                name='Charger Error',
+                uid='charger_error',
+            ),
+            'ac_current': Sensor(
+                device=self.device,
+                name='AC Current',
+                uid='ac_current',
+                device_class='current',
+                state_class='measurement',
+                unit_of_measurement='A',
+                suggested_display_precision=2,
+            ),
+            'output_current1': Sensor(
+                device=self.device,
+                name='Output Current 1',
+                uid='output_current1',
+                device_class='current',
+                state_class='measurement',
+                unit_of_measurement='A',
+                suggested_display_precision=2,
+            ),
+            'output_current2': Sensor(
+                device=self.device,
+                name='Output Current 2',
+                uid='output_current2',
+                device_class='current',
+                state_class='measurement',
+                unit_of_measurement='A',
+                suggested_display_precision=2,
+            ),
+            'output_current3': Sensor(
+                device=self.device,
+                name='Output Current 3',
+                uid='output_current3',
+                device_class='current',
+                state_class='measurement',
+                unit_of_measurement='A',
+                suggested_display_precision=2,
+            ),
+            'output_voltage1': Sensor(
+                device=self.device,
+                name='Output Voltage 1',
+                uid='output_voltage1',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            ),
+            'output_voltage2': Sensor(
+                device=self.device,
+                name='Output Voltage 2',
+                uid='output_voltage2',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            ),
+            'output_voltage3': Sensor(
+                device=self.device,
+                name='Output Voltage 3',
+                uid='output_voltage3',
+                device_class='voltage',
+                state_class='measurement',
+                unit_of_measurement='V',
+                suggested_display_precision=2,
+            ),
+            'temperature': Sensor(
+                device=self.device,
+                name='Temperature',
+                uid='temperature',
+                device_class='temperature',
+                state_class='measurement',
+                unit_of_measurement='°C',
+                suggested_display_precision=1,
+            ),
+        }
+
+        ####################################################################################
+        # Extra sensors
+
+        self.output_power1 = Sensor(
+            device=self.device,
+            name='Output Power 1',
+            uid='output_power1',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+        self.output_power2 = Sensor(
+            device=self.device,
+            name='Output Power 2',
+            uid='output_power2',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+        self.output_power3 = Sensor(
+            device=self.device,
+            name='Output Power 3',
+            uid='output_power3',
+            device_class='power',
+            state_class='measurement',
+            unit_of_measurement='W',
+            suggested_display_precision=1,
+        )
+
+    def publish(self, *, data_dict: dict, rssi: int | None) -> None:
+        super().publish(data_dict=data_dict, rssi=rssi)
+
+        # Extra sensors
+        self.output_power1.set_state(data_dict['output_voltage1'] * data_dict['output_current1'])
+        self.output_power1.publish(self.mqtt_client)
+
+        self.output_power2.set_state(data_dict['output_voltage2'] * data_dict['output_current2'])
+        self.output_power2.publish(self.mqtt_client)
+
+        self.output_power3.set_state(data_dict['output_voltage3'] * data_dict['output_current3'])
+        self.output_power3.publish(self.mqtt_client)
 
 
 class FallbackHandler(BaseHandler):
@@ -358,7 +672,10 @@ class FallbackHandler(BaseHandler):
 
 VICRON_DEVICE_HANDLERS = (
     BatteryMonitorHandler,
+    SmartBatteryProtectHandler,
+    AcChargerHandler,
     SolarChargerHandler,
+    DcDcConverterHandler,
 )
 
 
@@ -381,6 +698,8 @@ class VictronMqttDeviceHandler:
             manufacturer='victron-ble2mqtt',
             sw_version=victron_ble2mqtt.__version__,
             config_throttle_sec=user_settings.mqtt.publish_config_throttle_seconds,
+            mqtt_retain=user_settings.mqtt.retain,
+            mqtt_qos=user_settings.mqtt.qos,
         )
         self.handler_map = {}
 
