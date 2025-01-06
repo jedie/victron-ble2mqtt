@@ -46,6 +46,8 @@ class BaseHandler:
             uid=uid,
             manufacturer='Victron Energy',
             model=data_dict['model_name'],  # e.g.: 'SmartSolar MPPT 100|20 48V' | 'SmartShunt 500A/50mV',
+            mqtt_retain=self.user_settings.mqtt.retain,
+            mqtt_qos=self.user_settings.mqtt.qos,
         )
         self.rssi_sensor = Sensor(
             device=self.device,
@@ -696,6 +698,8 @@ class VictronMqttDeviceHandler:
             manufacturer='victron-ble2mqtt',
             sw_version=victron_ble2mqtt.__version__,
             config_throttle_sec=user_settings.mqtt.publish_config_throttle_seconds,
+            mqtt_retain=user_settings.mqtt.retain,
+            mqtt_qos=user_settings.mqtt.qos,
         )
         self.handler_map = {}
 
