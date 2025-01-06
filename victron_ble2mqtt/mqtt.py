@@ -5,7 +5,7 @@ from bleak import BLEDevice
 from ha_services.mqtt4homeassistant.components.sensor import Sensor
 from ha_services.mqtt4homeassistant.device import MainMqttDevice, MqttDevice
 from paho.mqtt.client import Client
-from victron_ble.devices import Device, BatteryMonitor, SolarCharger, DcDcConverter, SmartBatteryProtect, AcCharger
+from victron_ble.devices import AcCharger, BatteryMonitor, DcDcConverter, Device, SmartBatteryProtect, SolarCharger
 
 import victron_ble2mqtt
 from victron_ble2mqtt.user_settings import UserSettings
@@ -132,6 +132,7 @@ class BatteryMonitorHandler(BaseHandler):
                 name='Auxiliary Mode',
                 uid='aux_mode',
             ),
+            # device class "electricity" Ah not supported by HASS - convert to "energy" Wh
             # 'consumed_ah': Sensor(
             #    device=self.device,
             #    name='Consumed Ah',
@@ -140,7 +141,7 @@ class BatteryMonitorHandler(BaseHandler):
             #    state_class='measurement',
             #    unit_of_measurement='Ah',
             #    suggested_display_precision=1,
-            #),
+            # ),
             'current': Sensor(
                 device=self.device,
                 name='Current',
@@ -214,7 +215,7 @@ class BatteryMonitorHandler(BaseHandler):
                 name='Consumed Energy',
                 uid='consumed_wh',
                 device_class='energy',
-                state_class='measurement',
+                state_class='total',  # using 'total' for class energy (last_reset problem for increase only values)
                 unit_of_measurement='Wh',
                 suggested_display_precision=0,
             )
@@ -244,7 +245,8 @@ class BatteryMonitorHandler(BaseHandler):
         # Extra sensors
 
         if data_dict.get('consumed_ah'):
-            self.consumed_wh.set_state(data_dict['voltage'] * data_dict['consumed_ah'])
+            # use positive value for Home Assistant energy dashboard
+            self.consumed_wh.set_state(data_dict['voltage'] * data_dict['consumed_ah'] * -1)
             self.consumed_wh.publish(self.mqtt_client)
 
         if data_dict.get('current'):
@@ -321,7 +323,7 @@ class SolarChargerHandler(BaseHandler):
                 name='Yield Today',
                 uid='yield_today',
                 device_class='energy',
-                state_class='measurement',
+                state_class='total',  # using 'total' for class energy (last_reset problem for increase only values)
                 unit_of_measurement='Wh',
                 suggested_display_precision=0,
             ),
@@ -375,7 +377,7 @@ class SolarChargerHandler(BaseHandler):
 class DcDcConverterHandler(BaseHandler):
     VictronDeviceClass = DcDcConverter
     # example_data = {
-    #     'charge_state': 'off', 
+    #     'charge_state': 'off',
     #     'charger_error': 'no_error',
     #     'input_voltage': 11.36,
     #     'model_name': 'Orion Smart 12V|12V-30A Non-isolated DC-DC Charger',
@@ -632,7 +634,6 @@ class AcChargerHandler(BaseHandler):
             unit_of_measurement='W',
             suggested_display_precision=1,
         )
-
 
     def publish(self, *, data_dict: dict, rssi: int | None) -> None:
         super().publish(data_dict=data_dict, rssi=rssi)
