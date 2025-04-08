@@ -44,31 +44,47 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 
 # app CLI
 
-[comment]: <> (✂✂✂ auto generated app help start ✂✂✂)
+[comment]: <> (✂✂✂ auto generated main help start ✂✂✂)
 ```
-Usage: ./cli.py [OPTIONS] COMMAND [ARGS]...
+usage: ./cli.py [-h]
+                {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-se
+tup,systemd-status,systemd-stop,update-readme-history,version,wifi-info}
 
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --help      Show this message and exit.                                                          │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
-│ debug-read      Read data from devices and print them. Device keys are used from config file, if │
-│                 not given.                                                                       │
-│ discover        Discover Victron devices with Instant Readout                                    │
-│ edit-settings   Edit the settings file. On first call: Create the default one.                   │
-│ print-settings  Display (anonymized) MQTT server username and password                           │
-│ publish-loop    Publish MQTT messages in endless loop (Entrypoint from systemd)                  │
-│ systemd-debug   Print Systemd service template + context + rendered file content.                │
-│ systemd-remove  Remove Systemd service file. (May need sudo)                                     │
-│ systemd-setup   Write Systemd service file, enable it and (re-)start the service. (May need      │
-│                 sudo)                                                                            │
-│ systemd-status  Display status of systemd service. (May need sudo)                               │
-│ systemd-stop    Stops the systemd service. (May need sudo)                                       │
-│ version         Print version and exit                                                           │
-│ wifi-info       Just display the WiFi info                                                       │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+╭─ options ──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ -h, --help        show this help message and exit                                                                  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-setup,systemd- │
+│ status,systemd-stop,update-readme-history,version,wifi-info}                                                       │
+│     debug-read    Read data from devices and print them. Device keys are used from config file, if not given.      │
+│     discover      Discover Victron devices with Instant Readout                                                    │
+│     edit-settings                                                                                                  │
+│                   Edit the settings file. On first call: Create the default one.                                   │
+│     print-settings                                                                                                 │
+│                   Display (anonymized) MQTT server username and password                                           │
+│     publish-loop  Publish MQTT messages in endless loop (Entrypoint from systemd)                                  │
+│     systemd-debug                                                                                                  │
+│                   Print Systemd service template + context + rendered file content.                                │
+│     systemd-remove                                                                                                 │
+│                   Remove Systemd service file. (May need sudo)                                                     │
+│     systemd-setup                                                                                                  │
+│                   Write Systemd service file, enable it and (re-)start the service. (May need sudo)                │
+│     systemd-status                                                                                                 │
+│                   Display status of systemd service. (May need sudo)                                               │
+│     systemd-stop  Stops the systemd service. (May need sudo)                                                       │
+│     update-readme-history                                                                                          │
+│                   Update project history base on git commits/tags in README.md Will be exited with 1 if the        │
+│                   README.md was updated otherwise with 0.                                                          │
+│                                                                                                                    │
+│                   Also, callable via e.g.:                                                                         │
+│                       python -m cli_base update-readme-history -v                                                  │
+│     version       Print version and exit                                                                           │
+│     wifi-info     Just display the WiFi info                                                                       │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
-[comment]: <> (✂✂✂ auto generated app help end ✂✂✂)
+[comment]: <> (✂✂✂ auto generated main help end ✂✂✂)
 
 
 
@@ -76,26 +92,34 @@ Usage: ./cli.py [OPTIONS] COMMAND [ARGS]...
 
 [comment]: <> (✂✂✂ auto generated dev help start ✂✂✂)
 ```
-Usage: ./dev-cli.py [OPTIONS] COMMAND [ARGS]...
+usage: ./dev-cli.py [-h]
+                    {check-code-style,coverage,fix-code-style,install,mypy,nox,pip-audit,publish,test,update,update-te
+st-snapshot-files,version}
 
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --help      Show this message and exit.                                                          │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
-│ check-code-style            Check code style by calling darker + flake8                          │
-│ coverage                    Run tests and show coverage report.                                  │
-│ fix-code-style              Fix code style of all cli_base source code files via darker          │
-│ install                     Run pip-sync and install 'cli_base' via pip as editable.             │
-│ mypy                        Run Mypy (configured in pyproject.toml)                              │
-│ pip-audit                   Run pip-audit check against current requirements files               │
-│ publish                     Build and upload this project to PyPi                                │
-│ test                        Run unittests                                                        │
-│ tox                         Run tox                                                              │
-│ update                      Update "requirements*.txt" dependencies files                        │
-│ update-test-snapshot-files  Update all test snapshot files (by remove and recreate all snapshot  │
-│                             files)                                                               │
-│ version                     Print version and exit                                               │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+╭─ options ──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ -h, --help        show this help message and exit                                                                  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ {check-code-style,coverage,fix-code-style,install,mypy,nox,pip-audit,publish,test,update,update-test-snapshot-file │
+│ s,version}                                                                                                         │
+│     check-code-style                                                                                               │
+│                   Check code style by calling darker + flake8                                                      │
+│     coverage      Run tests and show coverage report.                                                              │
+│     fix-code-style                                                                                                 │
+│                   Fix code style of all victron_ble2mqtt source code files via darker                              │
+│     install       Install requirements and 'victron_ble2mqtt' via pip as editable.                                 │
+│     mypy          Run Mypy (configured in pyproject.toml)                                                          │
+│     nox           Run nox                                                                                          │
+│     pip-audit     Run pip-audit check against current requirements files                                           │
+│     publish       Build and upload this project to PyPi                                                            │
+│     test          Run unittests                                                                                    │
+│     update        Update "requirements*.txt" dependencies files                                                    │
+│     update-test-snapshot-files                                                                                     │
+│                   Update all test snapshot files (by remove and recreate all snapshot files)                       │
+│     version       Print version and exit                                                                           │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 [comment]: <> (✂✂✂ auto generated dev help end ✂✂✂)
 
@@ -193,3 +217,51 @@ You must edit your settings:
 * `device_key` is replaced by `device_keys` a list of device keys
 
 Just insert the keys of all Victron Energy Smart Devices you want to monitor.
+
+
+# History
+
+[comment]: <> (✂✂✂ auto generated history start ✂✂✂)
+
+* [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
+  * 2025-04-08 - pip-tools -> uv
+* [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)
+  * 2024-09-25 - NEW: Midpoint Shift (absolut + percent) in BatteryMonitor
+* [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
+  * 2024-09-24 - Bugfix delay data: Never, never use time.sleep() in a async context
+* [v0.4.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.3.0...v0.4.0)
+  * 2024-09-24 - Update README.md
+  * 2024-09-22 - Use device keys and refactor MQTT sensors: Support BatteryMonitor
+  * 2024-09-22 - Bugfix Pi installation
+  * 2024-09-22 - Move pip-compile switches into pyproject.toml
+  * 2024-09-22 - Update requirements
+
+<details><summary>Expand older history entries ...</summary>
+
+* [v0.3.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.1.0...v0.3.0)
+  * 2024-09-20 - bugfix publish
+  * 2024-09-20 - Add help pages into README
+  * 2024-04-16 - Update to new ha-services version and update project setup
+  * 2024-03-23 - Update README.md
+  * 2024-03-10 - Disable verbose print as default
+  * 2024-03-10 - Expose WiFi quality values to MQTT
+* [v0.1.0](https://github.com/jedie/victron-ble2mqtt/compare/2bff08d...v0.1.0)
+  * 2024-03-09 - Remove 3.9 from test matrix
+  * 2024-03-09 - requires-python = ">=3.10"
+  * 2024-03-09 - Update README.md
+  * 2024-03-09 - Add Hostname + sys load to MQTT
+  * 2024-03-09 - Add info about systemd to README
+  * 2024-03-09 - Remove deprecation warning about RSSI
+  * 2024-03-09 - Bugfix systemd "exec_start" value
+  * 2024-03-09 - Add systemd commands
+  * 2024-03-09 - Publish value to MQTT
+  * 2024-03-09 - Add user settings and "debug-read" CLI command
+  * 2024-03-09 - Add "discover" to app CLI
+  * 2024-03-08 - More info in README
+  * 2024-03-08 - Add "victron-ble" and "ha-services"
+  * 2024-03-08 - Init from https://github.com/jedie/cookiecutter_templates
+
+</details>
+
+
+[comment]: <> (✂✂✂ auto generated history end ✂✂✂)

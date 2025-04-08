@@ -5,15 +5,15 @@
 import asyncio
 import logging
 
-import rich_click as click
 from bleak import AdvertisementData, BLEDevice
-from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
+from cli_base.cli_tools.verbosity import setup_logging
 from cli_base.toml_settings.api import TomlSettings
+from cli_base.tyro_commands import TyroVerbosityArgType
 from ha_services.mqtt4homeassistant.mqtt import get_connected_client
 from rich import print  # noqa
 from victron_ble.scanner import BaseScanner
 
-from victron_ble2mqtt.cli_app import cli
+from victron_ble2mqtt.cli_app import app
 from victron_ble2mqtt.cli_app.settings import get_settings
 from victron_ble2mqtt.mqtt import VictronMqttDeviceHandler
 from victron_ble2mqtt.user_settings import UserSettings
@@ -23,9 +23,8 @@ from victron_ble2mqtt.victron_ble_utils import DeviceHandler
 logger = logging.getLogger(__name__)
 
 
-@cli.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE | {'default': 0})
-def publish_loop(verbosity: int):
+@app.command
+def publish_loop(verbosity: TyroVerbosityArgType):
     """
     Publish MQTT messages in endless loop (Entrypoint from systemd)
     """

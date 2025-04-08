@@ -1,6 +1,6 @@
 [
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-wifi_device_name/attributes\", \"name\": \"Wifi Device Name\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-wifi_device_name/state\", \"unique_id\": \"main_uid-wifi_device_name\", \"unit_of_measurement\": null}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-wifi_device_name/attributes\", \"name\": \"Wifi Device Name\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-wifi_device_name/state\", \"unique_id\": \"main_uid-wifi_device_name\", \"unit_of_measurement\": null}",
         "topic": "homeassistant/sensor/main_uid/main_uid-wifi_device_name/config"
     },
     {
@@ -8,7 +8,7 @@
         "topic": "homeassistant/sensor/main_uid/main_uid-wifi_device_name/state"
     },
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-ESSID/attributes\", \"name\": \"Essid\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-ESSID/state\", \"unique_id\": \"main_uid-ESSID\", \"unit_of_measurement\": null}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-ESSID/attributes\", \"name\": \"Essid\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-ESSID/state\", \"unique_id\": \"main_uid-ESSID\", \"unit_of_measurement\": null}",
         "topic": "homeassistant/sensor/main_uid/main_uid-ESSID/config"
     },
     {
@@ -16,7 +16,7 @@
         "topic": "homeassistant/sensor/main_uid/main_uid-ESSID/state"
     },
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-bit_rate/attributes\", \"name\": \"Bit rate\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-bit_rate/state\", \"unique_id\": \"main_uid-bit_rate\", \"unit_of_measurement\": \"Mb/s\"}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-bit_rate/attributes\", \"name\": \"Bit rate\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-bit_rate/state\", \"unique_id\": \"main_uid-bit_rate\", \"unit_of_measurement\": \"Mb/s\"}",
         "topic": "homeassistant/sensor/main_uid/main_uid-bit_rate/config"
     },
     {
@@ -24,7 +24,7 @@
         "topic": "homeassistant/sensor/main_uid/main_uid-bit_rate/state"
     },
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-frequency/attributes\", \"name\": \"Frequency\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-frequency/state\", \"unique_id\": \"main_uid-frequency\", \"unit_of_measurement\": \"GHz\"}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-frequency/attributes\", \"name\": \"Frequency\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-frequency/state\", \"unique_id\": \"main_uid-frequency\", \"unit_of_measurement\": \"GHz\"}",
         "topic": "homeassistant/sensor/main_uid/main_uid-frequency/config"
     },
     {
@@ -32,7 +32,7 @@
         "topic": "homeassistant/sensor/main_uid/main_uid-frequency/state"
     },
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-link_quality/attributes\", \"name\": \"Link quality\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-link_quality/state\", \"unique_id\": \"main_uid-link_quality\", \"unit_of_measurement\": null}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-link_quality/attributes\", \"name\": \"Link quality\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": null, \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-link_quality/state\", \"unique_id\": \"main_uid-link_quality\", \"unit_of_measurement\": null}",
         "topic": "homeassistant/sensor/main_uid/main_uid-link_quality/config"
     },
     {
@@ -40,7 +40,7 @@
         "topic": "homeassistant/sensor/main_uid/main_uid-link_quality/state"
     },
     {
-        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-signal_level/attributes\", \"name\": \"Signal level\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.7.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-signal_level/state\", \"unique_id\": \"main_uid-signal_level\", \"unit_of_measurement\": \"dBm\"}",
+        "payload": "{\"component\": \"sensor\", \"device\": {\"identifiers\": \"main_uid\", \"name\": \"Main Device\"}, \"device_class\": null, \"json_attributes_topic\": \"homeassistant/sensor/main_uid/main_uid-signal_level/attributes\", \"name\": \"Signal level\", \"origin\": {\"name\": \"ha-services\", \"support_url\": \"https://pypi.org/project/ha_services/\", \"sw_version\": \"2.8.0\"}, \"state_class\": \"measurement\", \"state_topic\": \"homeassistant/sensor/main_uid/main_uid-signal_level/state\", \"unique_id\": \"main_uid-signal_level\", \"unit_of_measurement\": \"dBm\"}",
         "topic": "homeassistant/sensor/main_uid/main_uid-signal_level/config"
     },
     {
