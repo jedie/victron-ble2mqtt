@@ -670,7 +670,7 @@ wheels = [
 
 [[package]]
 name = "ha-services"
-version = "2.8.0"
+version = "2.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cli-base-utilities" },
@@ -682,9 +682,9 @@ dependencies = [
     { name = "tomlkit" },
     { name = "tyro" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9e/08/45283b50d7a8d82e49f4b5513ec2603ea31f988017ec76c9cf07aba9466d/ha_services-2.8.0.tar.gz", hash = "sha256:6f923e73d846d343dfce64059c0a2b23336fc5f658e1a49c7ae58ec415cb2366", size = 87538 }
+sdist = { url = "https://files.pythonhosted.org/packages/36/37/3f9c8003f10d307da9fa9429c0be0d838cf6f3f3707704bb75ce935c5794/ha_services-2.9.0.tar.gz", hash = "sha256:ac724753579e02d6d97fd847628600b5e9b0577c993098d05fd8310d57ef911d", size = 90835 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c9/0a/081a61d245a83b09a19da3ac1f58ec5a4faaec0aed4573cd4b44bd945818/ha_services-2.8.0-py3-none-any.whl", hash = "sha256:8f7fb67116e0bf39c58127c333056b8ff9e97c225e9eac87aa50774c62251e08", size = 42992 },
+    { url = "https://files.pythonhosted.org/packages/f9/96/e79f742ae5efe0fdb6da67ff4f5fd02bf87f4761f5d68f78960497159acb/ha_services-2.9.0-py3-none-any.whl", hash = "sha256:81a9db7f25e74f89d40c50005e0071f92e21215252caed065ecab8a613d29677", size = 48095 },
 ]
 
 [[package]]
@@ -1780,7 +1780,7 @@ dev = [
 requires-dist = [
     { name = "bx-py-utils" },
     { name = "cli-base-utilities" },
-    { name = "ha-services", specifier = ">=0.5.0" },
+    { name = "ha-services", specifier = ">=2.9.0" },
     { name = "rich" },
     { name = "tyro" },
     { name = "victron-ble" },
