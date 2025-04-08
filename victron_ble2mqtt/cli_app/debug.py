@@ -6,15 +6,15 @@ import asyncio
 import logging
 from datetime import datetime
 
-import rich_click as click
 from bleak import BLEDevice
-from cli_base.cli_tools.verbosity import OPTION_KWARGS_VERBOSE, setup_logging
+from cli_base.cli_tools.verbosity import setup_logging
 from cli_base.toml_settings.api import TomlSettings
+from cli_base.tyro_commands import TyroVerbosityArgType
 from rich import print  # noqa
 from victron_ble.devices import detect_device_type
 from victron_ble.scanner import BaseScanner
 
-from victron_ble2mqtt.cli_app import cli
+from victron_ble2mqtt.cli_app import app
 from victron_ble2mqtt.cli_app.settings import get_settings
 from victron_ble2mqtt.user_settings import UserSettings
 from victron_ble2mqtt.victron_ble_utils import DeviceHandler
@@ -23,9 +23,8 @@ from victron_ble2mqtt.victron_ble_utils import DeviceHandler
 logger = logging.getLogger(__name__)
 
 
-@cli.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE | {'default': 2})
-def discover(verbosity: int):
+@app.command
+def discover(verbosity: TyroVerbosityArgType):
     """
     Discover Victron devices with Instant Readout
     """
@@ -51,10 +50,8 @@ def discover(verbosity: int):
     loop.run_forever()
 
 
-@cli.command()
-@click.option('-v', '--verbosity', **OPTION_KWARGS_VERBOSE)
-@click.argument('keys', type=str, nargs=-1)
-def debug_read(verbosity: int, keys: list[str] | None = None):
+@app.command
+def debug_read(verbosity: TyroVerbosityArgType, keys: list[str] | None = None):
     """
     Read data from devices and print them.
     Device keys are used from config file, if not given.

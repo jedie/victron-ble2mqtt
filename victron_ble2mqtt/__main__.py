@@ -3,7 +3,6 @@
     through `python -m victron_ble2mqtt`.
 """
 
-
 from victron_ble2mqtt.cli_app import main
 
 
