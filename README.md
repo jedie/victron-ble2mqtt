@@ -48,7 +48,7 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 ```
 usage: ./cli.py [-h]
                 {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-se
-tup,systemd-status,systemd-stop,update-readme-history,version,wifi-info}
+tup,systemd-status,systemd-stop,update-readme-history,version}
 
 
 
@@ -57,7 +57,7 @@ tup,systemd-status,systemd-stop,update-readme-history,version,wifi-info}
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-setup,systemd- │
-│ status,systemd-stop,update-readme-history,version,wifi-info}                                                       │
+│ status,systemd-stop,update-readme-history,version}                                                                 │
 │     debug-read    Read data from devices and print them. Device keys are used from config file, if not given.      │
 │     discover      Discover Victron devices with Instant Readout                                                    │
 │     edit-settings                                                                                                  │
@@ -81,7 +81,6 @@ tup,systemd-status,systemd-stop,update-readme-history,version,wifi-info}
 │                   Also, callable via e.g.:                                                                         │
 │                       python -m cli_base update-readme-history -v                                                  │
 │     version       Print version and exit                                                                           │
-│     wifi-info     Just display the WiFi info                                                                       │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 [comment]: <> (✂✂✂ auto generated main help end ✂✂✂)
@@ -223,21 +222,23 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
+  * 2025-04-08 - Remove own Wifi info stuff
 * [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
   * 2025-04-08 - pip-tools -> uv
 * [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)
   * 2024-09-25 - NEW: Midpoint Shift (absolut + percent) in BatteryMonitor
 * [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
   * 2024-09-24 - Bugfix delay data: Never, never use time.sleep() in a async context
+
+<details><summary>Expand older history entries ...</summary>
+
 * [v0.4.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.3.0...v0.4.0)
   * 2024-09-24 - Update README.md
   * 2024-09-22 - Use device keys and refactor MQTT sensors: Support BatteryMonitor
   * 2024-09-22 - Bugfix Pi installation
   * 2024-09-22 - Move pip-compile switches into pyproject.toml
   * 2024-09-22 - Update requirements
-
-<details><summary>Expand older history entries ...</summary>
-
 * [v0.3.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.1.0...v0.3.0)
   * 2024-09-20 - bugfix publish
   * 2024-09-20 - Add help pages into README

@@ -10,7 +10,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
-    "ha-services>=0.5.0",  # https://github.com/jedie/ha-services
+    "ha-services>=2.9.0",  # https://github.com/jedie/ha-services
     "cli-base-utilities",  # https://github.com/jedie/cli-base-utilities
     "bx_py_utils",  # https://github.com/boxine/bx_py_utils
     "tyro",  # https://github.com/brentyi/tyro

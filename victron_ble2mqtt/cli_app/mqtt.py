@@ -50,8 +50,6 @@ def publish_loop(verbosity: TyroVerbosityArgType):
             self.mqtt_client = get_connected_client(settings=user_settings.mqtt, verbosity=verbosity)
             self.mqtt_client.loop_start()
 
-            self.wifi_info = None
-
             self.rssi_info = {}
 
         def _detection_callback(self, device: BLEDevice, advertisement: AdvertisementData):
@@ -71,30 +69,6 @@ def publish_loop(verbosity: TyroVerbosityArgType):
                 )
             else:
                 logger.warning(f'Unsupported: {ble_device.name} ({ble_device.address})')
-
-            #     self.wifi_info = WifiInfo2Mqtt(device=self.device, verbosity=self.verbosity)
-            #
-            # self.rssi_sensor.set_state(self.rssi)
-            # self.device_address.set_state(ble_device.address)
-            #
-            # # Information about WIFI quality:
-            # self.wifi_info.poll_and_publish(self.mqtt_client)
-            #
-            # try:
-            #     device = self.get_device(ble_device, raw_data)
-            # except UnknownDeviceError as e:
-            #     logger.error(e)
-            # else:
-            #     data: DeviceData = device.parse(raw_data)
-            #     data_dict = values2dict(data)
-            #
-            #     for key, value in data_dict.items():
-            #
-            #         if sensor := self.sensors.get(key):
-            #             sensor.set_state(value)
-            #             sensor.publish(self.mqtt_client)
-            #         else:
-            #             logger.warning(f'No mapping for: {key=} {value=}')
 
     async def scan(*, keys: list[str], user_settings: UserSettings):
         scanner = MqttPublisher(
