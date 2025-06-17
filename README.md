@@ -222,17 +222,19 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...main)
+  * 2025-06-17 - Update requirements
 * [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
   * 2025-04-08 - Remove own Wifi info stuff
 * [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
   * 2025-04-08 - pip-tools -> uv
 * [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)
   * 2024-09-25 - NEW: Midpoint Shift (absolut + percent) in BatteryMonitor
-* [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
-  * 2024-09-24 - Bugfix delay data: Never, never use time.sleep() in a async context
 
 <details><summary>Expand older history entries ...</summary>
 
+* [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
+  * 2024-09-24 - Bugfix delay data: Never, never use time.sleep() in a async context
 * [v0.4.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.3.0...v0.4.0)
   * 2024-09-24 - Update README.md
   * 2024-09-22 - Use device keys and refactor MQTT sensors: Support BatteryMonitor
