@@ -260,6 +260,9 @@ class SolarChargerHandler(BaseHandler):
                 state_class='measurement',
                 unit_of_measurement='A',
                 suggested_display_precision=1,
+                # Max current is 20A (just add a buffer):
+                min_value=-20 * 1.1,
+                max_value=20 + 1.1,
             ),
             'battery_voltage': Sensor(
                 device=self.device,
@@ -269,6 +272,8 @@ class SolarChargerHandler(BaseHandler):
                 state_class='measurement',
                 unit_of_measurement='V',
                 suggested_display_precision=2,
+                min_value=0,
+                max_value=48 * 1.2,  # 48V + buffer
             ),
             'charge_state': Sensor(
                 device=self.device,
