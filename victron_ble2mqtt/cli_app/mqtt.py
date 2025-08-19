@@ -4,6 +4,7 @@
 
 import asyncio
 import logging
+import time
 
 from bleak import AdvertisementData, BLEDevice
 from cli_base.cli_tools.verbosity import setup_logging
@@ -52,6 +53,8 @@ def publish_loop(verbosity: TyroVerbosityArgType):
 
             self.rssi_info = {}
 
+            self.next_publish = 0
+
         def _detection_callback(self, device: BLEDevice, advertisement: AdvertisementData):
             self.rssi_info[device.address] = advertisement.rssi
             return super()._detection_callback(device, advertisement)
@@ -60,6 +63,10 @@ def publish_loop(verbosity: TyroVerbosityArgType):
             logger.debug(f'Received data from {ble_device.address.lower()}: {raw_data.hex()}')
 
             if generic_device := self.device_handler.get_generic_device(ble_device, raw_data):
+                if time.monotonic() < self.next_publish:
+                    logger.debug(f'Skipping publish for {ble_device.name} ({ble_device.address}) due to throttle.')
+                    return
+
                 self.victron_mqtt_handler.publish(
                     ble_device=ble_device,
                     raw_data=raw_data,
@@ -67,6 +74,7 @@ def publish_loop(verbosity: TyroVerbosityArgType):
                     rssi=self.rssi_info.get(ble_device.address),
                     mqtt_client=self.mqtt_client,
                 )
+                self.next_publish = time.monotonic() + user_settings.publish_throttle_seconds
             else:
                 logger.warning(f'Unsupported: {ble_device.name} ({ble_device.address})')
 
