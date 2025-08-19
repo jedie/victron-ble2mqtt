@@ -47,8 +47,8 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 [comment]: <> (✂✂✂ auto generated main help start ✂✂✂)
 ```
 usage: ./cli.py [-h]
-                {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-se
-tup,systemd-status,systemd-stop,update-readme-history,version}
+                {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-logs,systemd-remo
+ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 
 
 
@@ -56,8 +56,8 @@ tup,systemd-status,systemd-stop,update-readme-history,version}
 │ -h, --help        show this help message and exit                                                                  │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-remove,systemd-setup,systemd- │
-│ status,systemd-stop,update-readme-history,version}                                                                 │
+│ {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-logs,systemd-remove,systemd-s │
+│ etup,systemd-status,systemd-stop,update-readme-history,version}                                                    │
 │     debug-read    Read data from devices and print them. Device keys are used from config file, if not given.      │
 │     discover      Discover Victron devices with Instant Readout                                                    │
 │     edit-settings                                                                                                  │
@@ -67,6 +67,7 @@ tup,systemd-status,systemd-stop,update-readme-history,version}
 │     publish-loop  Publish MQTT messages in endless loop (Entrypoint from systemd)                                  │
 │     systemd-debug                                                                                                  │
 │                   Print Systemd service template + context + rendered file content.                                │
+│     systemd-logs  Display the systemd logs for this service. (May need sudo)                                       │
 │     systemd-remove                                                                                                 │
 │                   Remove Systemd service file. (May need sudo)                                                     │
 │     systemd-setup                                                                                                  │
@@ -222,7 +223,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [v0.7.0rc1](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0rc1)
+* [v0.7.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0)
+  * 2025-08-19 - NEW: "./cli.py systemd-logs"
   * 2025-08-19 - Add new setting: `publish_throttle_seconds` for #31
   * 2025-08-19 - Update requirements
   * 2025-06-17 - Limit sensor values
