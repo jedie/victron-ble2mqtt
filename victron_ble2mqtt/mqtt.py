@@ -136,7 +136,7 @@ class BatteryMonitorHandler(BaseHandler):
                 device=self.device,
                 name='Consumed Ah',
                 uid='consumed_ah',
-                device_class='electricity',
+                device_class='energy',
                 state_class='measurement',
                 unit_of_measurement='Ah',
                 suggested_display_precision=1,
