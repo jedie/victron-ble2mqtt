@@ -222,7 +222,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...main)
+* [v0.7.0rc1](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0rc1)
+  * 2025-08-19 - Add new setting: `publish_throttle_seconds` for #31
   * 2025-08-19 - Update requirements
   * 2025-06-17 - Limit sensor values
 * [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)

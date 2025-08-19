@@ -35,6 +35,7 @@ class UserSettings:
     """
 
     device_name: str = 'Victron'
+    publish_throttle_seconds: int = 1  # Minimum time between publishing messages to MQTT, in seconds.
 
     # Add device keys here:
     device_keys: list[str] = dataclasses.field(default_factory=list)
