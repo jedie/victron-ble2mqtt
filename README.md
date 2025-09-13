@@ -1,7 +1,7 @@
 # victron_ble2mqtt
 
 [![tests](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/github/jedie/victron-ble2mqtt/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/victron-ble2mqtt)
+[![codecov](https://codecov.io/github/jedie/victron_ble2mqtt/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/victron_ble2mqtt)
 [![victron_ble2mqtt @ PyPi](https://img.shields.io/pypi/v/victron_ble2mqtt?label=victron_ble2mqtt%20%40%20PyPi)](https://pypi.org/project/victron_ble2mqtt/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/victron_ble2mqtt)](https://github.com/jedie/victron-ble2mqtt/blob/main/pyproject.toml)
 [![License GPL-3.0-or-later](https://img.shields.io/pypi/l/victron_ble2mqtt)](https://github.com/jedie/victron-ble2mqtt/blob/main/LICENSE)
@@ -93,8 +93,8 @@ ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 [comment]: <> (✂✂✂ auto generated dev help start ✂✂✂)
 ```
 usage: ./dev-cli.py [-h]
-                    {check-code-style,coverage,fix-code-style,install,mypy,nox,pip-audit,publish,test,update,update-te
-st-snapshot-files,version}
+                    {coverage,install,lint,mypy,nox,pip-audit,publish,test,update,update-readme-history,update-test-sn
+apshot-files,version}
 
 
 
@@ -102,20 +102,23 @@ st-snapshot-files,version}
 │ -h, --help        show this help message and exit                                                                  │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {check-code-style,coverage,fix-code-style,install,mypy,nox,pip-audit,publish,test,update,update-test-snapshot-file │
-│ s,version}                                                                                                         │
-│     check-code-style                                                                                               │
-│                   Check code style by calling darker + flake8                                                      │
+│ {coverage,install,lint,mypy,nox,pip-audit,publish,test,update,update-readme-history,update-test-snapshot-files,ver │
+│ sion}                                                                                                              │
 │     coverage      Run tests and show coverage report.                                                              │
-│     fix-code-style                                                                                                 │
-│                   Fix code style of all victron_ble2mqtt source code files via darker                              │
 │     install       Install requirements and 'victron_ble2mqtt' via pip as editable.                                 │
+│     lint          Check/fix code style by run: "ruff check --fix"                                                  │
 │     mypy          Run Mypy (configured in pyproject.toml)                                                          │
 │     nox           Run nox                                                                                          │
 │     pip-audit     Run pip-audit check against current requirements files                                           │
 │     publish       Build and upload this project to PyPi                                                            │
 │     test          Run unittests                                                                                    │
-│     update        Update "requirements*.txt" dependencies files                                                    │
+│     update        Update dependencies (uv.lock) and git pre-commit hooks                                           │
+│     update-readme-history                                                                                          │
+│                   Update project history base on git commits/tags in README.md Will be exited with 1 if the        │
+│                   README.md was updated otherwise with 0.                                                          │
+│                                                                                                                    │
+│                   Also, callable via e.g.:                                                                         │
+│                       python -m cli_base update-readme-history -v                                                  │
 │     update-test-snapshot-files                                                                                     │
 │                   Update all test snapshot files (by remove and recreate all snapshot files)                       │
 │     version       Print version and exit                                                                           │
@@ -223,7 +226,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...main)
+* [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
+  * 2025-09-13 - Apply manageprojects updates
   * 2025-08-19 - Bugfix "consumed_ah" sensor: "electricity" -> "energy"
 * [v0.7.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0)
   * 2025-08-19 - NEW: "./cli.py systemd-logs"
