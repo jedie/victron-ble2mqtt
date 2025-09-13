@@ -1,7 +1,7 @@
 # victron_ble2mqtt
 
 [![tests](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/github/jedie/victron_ble2mqtt/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/victron_ble2mqtt)
+[![codecov](https://codecov.io/github/jedie/victron-ble2mqtt/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/victron-ble2mqtt)
 [![victron_ble2mqtt @ PyPi](https://img.shields.io/pypi/v/victron_ble2mqtt?label=victron_ble2mqtt%20%40%20PyPi)](https://pypi.org/project/victron_ble2mqtt/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/victron_ble2mqtt)](https://github.com/jedie/victron-ble2mqtt/blob/main/pyproject.toml)
 [![License GPL-3.0-or-later](https://img.shields.io/pypi/l/victron_ble2mqtt)](https://github.com/jedie/victron-ble2mqtt/blob/main/LICENSE)
@@ -227,6 +227,7 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
+  * 2025-09-13 - fix wrong links in README
   * 2025-09-13 - Add PyCharm run config files
   * 2025-09-13 - Apply manageprojects updates
   * 2025-08-19 - Bugfix "consumed_ah" sensor: "electricity" -> "energy"
