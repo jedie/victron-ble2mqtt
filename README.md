@@ -227,6 +227,7 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
+  * 2025-09-13 - Add PyCharm run config files
   * 2025-09-13 - Apply manageprojects updates
   * 2025-08-19 - Bugfix "consumed_ah" sensor: "electricity" -> "energy"
 * [v0.7.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0)
