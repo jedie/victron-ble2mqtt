@@ -11,7 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
     "ha-services",  # https://github.com/jedie/ha-services
-    "cli-base-utilities",  # https://github.com/jedie/cli-base-utilities
+    "cli-base-utilities>=0.17.0",  # https://github.com/jedie/cli-base-utilities
     "bx_py_utils",  # https://github.com/boxine/bx_py_utils
     "tyro",  # https://github.com/brentyi/tyro
     "rich",  # https://github.com/Textualize/rich
@@ -130,6 +130,7 @@ applied_migrations = [
     "935485b", # 2024-09-09T10:39:39+02:00
     "b7f2cb5", # 2025-03-23T15:08:42+01:00
     "46497a1", # 2025-09-05T08:45:19+02:00
+    "86b20b9", # 2025-09-22T21:43:37+02:00
 ]
 
 [manageprojects.cookiecutter_context.cookiecutter]

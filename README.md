@@ -226,6 +226,9 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
+  * 2025-09-24 - Apply manageproject updates + update requirements
+  * 2025-09-24 - Update sensor units to those supported by the device class
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
   * 2025-09-13 - fix wrong links in README
   * 2025-09-13 - Add PyCharm run config files
@@ -238,11 +241,11 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
   * 2025-06-17 - Limit sensor values
 * [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
   * 2025-04-08 - Remove own Wifi info stuff
-* [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
-  * 2025-04-08 - pip-tools -> uv
 
 <details><summary>Expand older history entries ...</summary>
 
+* [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
+  * 2025-04-08 - pip-tools -> uv
 * [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)
   * 2024-09-25 - NEW: Midpoint Shift (absolut + percent) in BatteryMonitor
 * [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
