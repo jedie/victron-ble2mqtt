@@ -293,7 +293,7 @@ class SolarChargerHandler(BaseHandler):
                 device=self.device,
                 name='Solar',
                 uid='solar_power',
-                device_class='energy',
+                device_class='power',
                 state_class='measurement',
                 unit_of_measurement='W',
                 suggested_display_precision=0,
