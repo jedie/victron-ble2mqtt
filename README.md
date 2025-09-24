@@ -47,8 +47,8 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 [comment]: <> (✂✂✂ auto generated main help start ✂✂✂)
 ```
 usage: ./cli.py [-h]
-                {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-logs,systemd-remo
-ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
+                {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-
+logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 
 
 
@@ -56,8 +56,8 @@ ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 │ -h, --help        show this help message and exit                                                                  │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {debug-read,discover,edit-settings,print-settings,publish-loop,systemd-debug,systemd-logs,systemd-remove,systemd-s │
-│ etup,systemd-status,systemd-stop,update-readme-history,version}                                                    │
+│ {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-logs,systemd │
+│ -remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}                                   │
 │     debug-read    Read data from devices and print them. Device keys are used from config file, if not given.      │
 │     discover      Discover Victron devices with Instant Readout                                                    │
 │     edit-settings                                                                                                  │
@@ -65,6 +65,8 @@ ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 │     print-settings                                                                                                 │
 │                   Display (anonymized) MQTT server username and password                                           │
 │     publish-loop  Publish MQTT messages in endless loop (Entrypoint from systemd)                                  │
+│     shell-completion                                                                                               │
+│                   Setup shell completion for this CLI (Currently only for bash shell)                              │
 │     systemd-debug                                                                                                  │
 │                   Print Systemd service template + context + rendered file content.                                │
 │     systemd-logs  Display the systemd logs for this service. (May need sudo)                                       │
@@ -93,8 +95,8 @@ ve,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 [comment]: <> (✂✂✂ auto generated dev help start ✂✂✂)
 ```
 usage: ./dev-cli.py [-h]
-                    {coverage,install,lint,mypy,nox,pip-audit,publish,test,update,update-readme-history,update-test-sn
-apshot-files,version}
+                    {coverage,install,lint,mypy,nox,pip-audit,publish,shell-completion,test,update,update-readme-histo
+ry,update-test-snapshot-files,version}
 
 
 
@@ -102,8 +104,8 @@ apshot-files,version}
 │ -h, --help        show this help message and exit                                                                  │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {coverage,install,lint,mypy,nox,pip-audit,publish,test,update,update-readme-history,update-test-snapshot-files,ver │
-│ sion}                                                                                                              │
+│ {coverage,install,lint,mypy,nox,pip-audit,publish,shell-completion,test,update,update-readme-history,update-test-s │
+│ napshot-files,version}                                                                                             │
 │     coverage      Run tests and show coverage report.                                                              │
 │     install       Install requirements and 'victron_ble2mqtt' via pip as editable.                                 │
 │     lint          Check/fix code style by run: "ruff check --fix"                                                  │
@@ -111,6 +113,8 @@ apshot-files,version}
 │     nox           Run nox                                                                                          │
 │     pip-audit     Run pip-audit check against current requirements files                                           │
 │     publish       Build and upload this project to PyPi                                                            │
+│     shell-completion                                                                                               │
+│                   Setup shell completion for this CLI (Currently only for bash shell)                              │
 │     test          Run unittests                                                                                    │
 │     update        Update dependencies (uv.lock) and git pre-commit hooks                                           │
 │     update-readme-history                                                                                          │
@@ -226,6 +230,12 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
+  * 2025-09-24 - remove obsolete .flake8 config + add/update PyCharm run configs
+  * 2025-09-24 - Remaining Minutes: set device_class='duration'
+  * 2025-09-24 - cleanup
+  * 2025-09-24 - Apply manageproject updates + update requirements
+  * 2025-09-24 - Update sensor units to those supported by the device class
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
   * 2025-09-13 - fix wrong links in README
   * 2025-09-13 - Add PyCharm run config files
@@ -238,11 +248,11 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
   * 2025-06-17 - Limit sensor values
 * [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
   * 2025-04-08 - Remove own Wifi info stuff
-* [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
-  * 2025-04-08 - pip-tools -> uv
 
 <details><summary>Expand older history entries ...</summary>
 
+* [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
+  * 2025-04-08 - pip-tools -> uv
 * [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)
   * 2024-09-25 - NEW: Midpoint Shift (absolut + percent) in BatteryMonitor
 * [v0.4.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.0...v0.4.1)
