@@ -126,6 +126,8 @@ class BatteryMonitorHandler(BaseHandler):
     def setup(self, *, data_dict):
         super().setup(data_dict=data_dict)
 
+        # Check available combinations here:
+        # https://developers.home-assistant.io/docs/core/entity/sensor/#available-device-classes
         self.sensors = {
             'aux_mode': Sensor(
                 device=self.device,
