@@ -165,6 +165,7 @@ class BatteryMonitorHandler(BaseHandler):
                 device=self.device,
                 name='Remaining Minutes',
                 uid='remaining_mins',
+                device_class='duration',
                 state_class='measurement',
                 unit_of_measurement='min',
             ),
