@@ -312,7 +312,7 @@ class SolarChargerHandler(BaseHandler):
                 name='Yield Today',
                 uid='yield_today',
                 device_class='energy',
-                state_class='measurement',
+                state_class='total',
                 unit_of_measurement='Wh',
                 suggested_display_precision=0,
             ),
