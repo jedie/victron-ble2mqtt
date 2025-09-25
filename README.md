@@ -230,6 +230,9 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [v0.7.3](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.2...v0.7.3)
+  * 2025-09-25 - Fix SolarChargerHandler "yield_today" sensor
+  * 2025-09-25 - Tweak 'Consumed Ah' because "Ah" is not supported in HA.
 * [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
   * 2025-09-24 - remove obsolete .flake8 config + add/update PyCharm run configs
   * 2025-09-24 - Remaining Minutes: set device_class='duration'
@@ -246,11 +249,11 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
   * 2025-08-19 - Add new setting: `publish_throttle_seconds` for #31
   * 2025-08-19 - Update requirements
   * 2025-06-17 - Limit sensor values
-* [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
-  * 2025-04-08 - Remove own Wifi info stuff
 
 <details><summary>Expand older history entries ...</summary>
 
+* [v0.6.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.1...v0.6.0)
+  * 2025-04-08 - Remove own Wifi info stuff
 * [v0.5.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.5.0...v0.5.1)
   * 2025-04-08 - pip-tools -> uv
 * [v0.5.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.4.1...v0.5.0)

@@ -134,12 +134,18 @@ class BatteryMonitorHandler(BaseHandler):
                 name='Auxiliary Mode',
                 uid='aux_mode',
             ),
+            #
+            # Note: HA doesn't have 'Ah' as unit!
+            # See:
+            # * https://community.home-assistant.io/t/energy-total-ah-not-supported-what-to-use/934286
+            # * https://github.com/home-assistant/architecture/discussions/1052
+            # So don't set device_class yet:
             'consumed_ah': Sensor(
                 device=self.device,
                 name='Consumed Ah',
                 uid='consumed_ah',
-                device_class='energy',
-                state_class='measurement',
+                # device_class='energy',
+                state_class='total',
                 unit_of_measurement='Ah',
                 suggested_display_precision=1,
             ),
@@ -306,7 +312,7 @@ class SolarChargerHandler(BaseHandler):
                 name='Yield Today',
                 uid='yield_today',
                 device_class='energy',
-                state_class='measurement',
+                state_class='total',
                 unit_of_measurement='Wh',
                 suggested_display_precision=0,
             ),
