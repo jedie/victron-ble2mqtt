@@ -167,6 +167,15 @@ class BatteryMonitorHandler(BaseHandler):
                 unit_of_measurement='V',
                 suggested_display_precision=2,
             ),
+           'temperature': Sensor(
+                device=self.device,
+                name='Temperature',
+                uid='temperature',
+                device_class='temperature',
+                state_class='measurement',
+                unit_of_measurement='°C',
+                suggested_display_precision=1,
+            ),
             'remaining_mins': Sensor(
                 device=self.device,
                 name='Remaining Minutes',
