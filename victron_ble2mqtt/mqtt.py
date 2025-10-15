@@ -243,7 +243,9 @@ class BatteryMonitorHandler(BaseHandler):
         self.power_sensor.set_state(data_dict['voltage'] * data_dict['current'])
         self.power_sensor.publish(self.mqtt_client)
 
-        if data_dict.get('aux_mode', None) == 'midpoint_voltage':
+        aux_mode = data_dict.get('aux_mode')
+
+        if aux_mode == 'midpoint_voltage':
             midpoint_shift = calc_midpoint_shift(data_dict['voltage'], data_dict['midpoint_voltage'])
             self.midpoint_shift.set_state(midpoint_shift)
             self.midpoint_shift.publish(self.mqtt_client)
