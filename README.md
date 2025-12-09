@@ -219,8 +219,11 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
 * [v0.7.3](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.2...v0.7.3)
+  * 2025-12-09 - update README
   * 2025-12-09 - Apply manageprojects update
   * 2025-12-09 - Update requirements
+  * 2025-10-15 - Revert debugging
+  * 2025-10-15 - Add support for temperature for shunt
   * 2025-09-25 - Fix SolarChargerHandler "yield_today" sensor
   * 2025-09-25 - Tweak 'Consumed Ah' because "Ah" is not supported in HA.
 * [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
