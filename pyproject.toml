@@ -56,11 +56,9 @@ path = "victron_ble2mqtt/__init__.py"
 
 
 [tool.cli_base.pip_audit]
-requirements=["requirements.dev.txt"]
 strict=true
 require_hashes=true
 ignore-vuln=[]
-
 
 [tool.cli_base]
 version_module_name = "victron_ble2mqtt"  # Used by "update-readme-history" git hook
@@ -131,6 +129,7 @@ applied_migrations = [
     "b7f2cb5", # 2025-03-23T15:08:42+01:00
     "46497a1", # 2025-09-05T08:45:19+02:00
     "86b20b9", # 2025-09-22T21:43:37+02:00
+    "95a3003", # 2025-11-28T22:00:56+01:00
 ]
 
 [manageprojects.cookiecutter_context.cookiecutter]
