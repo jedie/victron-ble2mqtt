@@ -46,45 +46,36 @@ Clone the sources and just call the CLI to create a Python Virtualenv, e.g.:
 
 [comment]: <> (✂✂✂ auto generated main help start ✂✂✂)
 ```
-usage: ./cli.py [-h]
-                {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-
-logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
+usage: ./cli.py [-h] {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 
 
 
-╭─ options ──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ -h, --help        show this help message and exit                                                                  │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-logs,systemd │
-│ -remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}                                   │
-│     debug-read    Read data from devices and print them. Device keys are used from config file, if not given.      │
-│     discover      Discover Victron devices with Instant Readout                                                    │
-│     edit-settings                                                                                                  │
-│                   Edit the settings file. On first call: Create the default one.                                   │
-│     print-settings                                                                                                 │
-│                   Display (anonymized) MQTT server username and password                                           │
-│     publish-loop  Publish MQTT messages in endless loop (Entrypoint from systemd)                                  │
-│     shell-completion                                                                                               │
-│                   Setup shell completion for this CLI (Currently only for bash shell)                              │
-│     systemd-debug                                                                                                  │
-│                   Print Systemd service template + context + rendered file content.                                │
-│     systemd-logs  Display the systemd logs for this service. (May need sudo)                                       │
-│     systemd-remove                                                                                                 │
-│                   Remove Systemd service file. (May need sudo)                                                     │
-│     systemd-setup                                                                                                  │
-│                   Write Systemd service file, enable it and (re-)start the service. (May need sudo)                │
-│     systemd-status                                                                                                 │
-│                   Display status of systemd service. (May need sudo)                                               │
-│     systemd-stop  Stops the systemd service. (May need sudo)                                                       │
-│     update-readme-history                                                                                          │
-│                   Update project history base on git commits/tags in README.md Will be exited with 1 if the        │
-│                   README.md was updated otherwise with 0.                                                          │
-│                                                                                                                    │
-│                   Also, callable via e.g.:                                                                         │
-│                       python -m cli_base update-readme-history -v                                                  │
-│     version       Print version and exit                                                                           │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ options ────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ -h, --help        show this help message and exit                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ subcommands ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ (required)                                                                                                           │
+│   • debug-read    Read data from devices and print them. Device keys are used from config file, if not given.        │
+│   • discover      Discover Victron devices with Instant Readout                                                      │
+│   • edit-settings Edit the settings file. On first call: Create the default one.                                     │
+│   • print-settingsDisplay (anonymized) MQTT server username and password                                             │
+│   • publish-loop  Publish MQTT messages in endless loop (Entrypoint from systemd)                                    │
+│   • shell-completion                                                                                                 │
+│ Setup shell completion for this CLI (Currently only for bash shell)                                                  │
+│   • systemd-debug Print Systemd service template + context + rendered file content.                                  │
+│   • systemd-logs  Display the systemd logs for this service. (May need sudo)                                         │
+│   • systemd-removeRemove Systemd service file. (May need sudo)                                                       │
+│   • systemd-setup Write Systemd service file, enable it and (re-)start the service. (May need sudo)                  │
+│   • systemd-statusDisplay status of systemd service. (May need sudo)                                                 │
+│   • systemd-stop  Stops the systemd service. (May need sudo)                                                         │
+│   • update-readme-history                                                                                            │
+│ Update project history base on git commits/tags in README.md Will be exited with 1 if the README.md was updated      │
+│ otherwise with 0.                                                                                                    │
+│                                                                                                                      │
+│ Also, callable via e.g.:                                                                                             │
+│     python -m cli_base update-readme-history -v                                                                      │
+│   • version       Print version and exit                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 [comment]: <> (✂✂✂ auto generated main help end ✂✂✂)
 
@@ -94,39 +85,36 @@ logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-hist
 
 [comment]: <> (✂✂✂ auto generated dev help start ✂✂✂)
 ```
-usage: ./dev-cli.py [-h]
-                    {coverage,install,lint,mypy,nox,pip-audit,publish,shell-completion,test,update,update-readme-histo
-ry,update-test-snapshot-files,version}
+usage: ./dev-cli.py [-h] {coverage,install,lint,mypy,nox,pip-audit,publish,shell-completion,test,update,update-readme-history,update-test-snapshot-files,version}
 
 
 
-╭─ options ──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ -h, --help        show this help message and exit                                                                  │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ subcommands ──────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ {coverage,install,lint,mypy,nox,pip-audit,publish,shell-completion,test,update,update-readme-history,update-test-s │
-│ napshot-files,version}                                                                                             │
-│     coverage      Run tests and show coverage report.                                                              │
-│     install       Install requirements and 'victron_ble2mqtt' via pip as editable.                                 │
-│     lint          Check/fix code style by run: "ruff check --fix"                                                  │
-│     mypy          Run Mypy (configured in pyproject.toml)                                                          │
-│     nox           Run nox                                                                                          │
-│     pip-audit     Run pip-audit check against current requirements files                                           │
-│     publish       Build and upload this project to PyPi                                                            │
-│     shell-completion                                                                                               │
-│                   Setup shell completion for this CLI (Currently only for bash shell)                              │
-│     test          Run unittests                                                                                    │
-│     update        Update dependencies (uv.lock) and git pre-commit hooks                                           │
-│     update-readme-history                                                                                          │
-│                   Update project history base on git commits/tags in README.md Will be exited with 1 if the        │
-│                   README.md was updated otherwise with 0.                                                          │
-│                                                                                                                    │
-│                   Also, callable via e.g.:                                                                         │
-│                       python -m cli_base update-readme-history -v                                                  │
-│     update-test-snapshot-files                                                                                     │
-│                   Update all test snapshot files (by remove and recreate all snapshot files)                       │
-│     version       Print version and exit                                                                           │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ options ────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ -h, --help     show this help message and exit                                                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ subcommands ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ (required)                                                                                                           │
+│   • coverage   Run tests and show coverage report.                                                                   │
+│   • install    Install requirements and 'victron_ble2mqtt' via pip as editable.                                      │
+│   • lint       Check/fix code style by run: "ruff check --fix"                                                       │
+│   • mypy       Run Mypy (configured in pyproject.toml)                                                               │
+│   • nox        Run nox                                                                                               │
+│   • pip-audit  Run pip-audit check against current requirements files                                                │
+│   • publish    Build and upload this project to PyPi                                                                 │
+│   • shell-completion                                                                                                 │
+│ Setup shell completion for this CLI (Currently only for bash shell)                                                  │
+│   • test       Run unittests                                                                                         │
+│   • update     Update dependencies (uv.lock) and git pre-commit hooks                                                │
+│   • update-readme-history                                                                                            │
+│ Update project history base on git commits/tags in README.md Will be exited with 1 if the README.md was updated      │
+│ otherwise with 0.                                                                                                    │
+│                                                                                                                      │
+│ Also, callable via e.g.:                                                                                             │
+│     python -m cli_base update-readme-history -v                                                                      │
+│   • update-test-snapshot-files                                                                                       │
+│ Update all test snapshot files (by remove and recreate all snapshot files)                                           │
+│   • version    Print version and exit                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 [comment]: <> (✂✂✂ auto generated dev help end ✂✂✂)
 
@@ -231,6 +219,7 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
 * [v0.7.3](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.2...v0.7.3)
+  * 2025-12-09 - Update requirements
   * 2025-09-25 - Fix SolarChargerHandler "yield_today" sensor
   * 2025-09-25 - Tweak 'Consumed Ah' because "Ah" is not supported in HA.
 * [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
