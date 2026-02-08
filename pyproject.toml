@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [
     {name = 'Jens Diemer', email = 'git@jensdiemer.de'}
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
     "ha-services>=2.14.0",  # https://github.com/jedie/ha-services
@@ -40,8 +40,15 @@ Documentation = "https://github.com/jedie/victron-ble2mqtt"
 Source = "https://github.com/jedie/victron-ble2mqtt"
 
 [project.scripts]
-victron_ble2mqtt_app = "victron_ble2mqtt.__main__:main"
-victron_ble2mqtt_dev = "victron_ble2mqtt.cli_dev:main"
+victron_ble2mqtt = "victron_ble2mqtt.__main__:main"
+
+
+[tool.bx_py_utils.doc_write]
+docstring_prefix = 'DocWrite:'
+macro_prefix = 'DocWriteMacro:'
+output_base_path = './docs/'
+search_paths = ['./victron_ble2mqtt/']
+delete_obsolete_files = true
 
 
 [build-system]
@@ -130,6 +137,7 @@ applied_migrations = [
     "46497a1", # 2025-09-05T08:45:19+02:00
     "86b20b9", # 2025-09-22T21:43:37+02:00
     "95a3003", # 2025-11-28T22:00:56+01:00
+    "af6dd62", # 2026-01-26T16:04:53+01:00
 ]
 
 [manageprojects.cookiecutter_context.cookiecutter]
