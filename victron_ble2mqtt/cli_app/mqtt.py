@@ -59,8 +59,9 @@ def publish_loop(verbosity: TyroVerbosityArgType):
             self.rssi_info[device.address] = advertisement.rssi
             return super()._detection_callback(device, advertisement)
 
-        def callback(self, ble_device: BLEDevice, raw_data: bytes):
+        def callback(self, ble_device: BLEDevice, raw_data: bytes, advertisement: AdvertisementData):
             logger.debug(f'Received data from {ble_device.address.lower()}: {raw_data.hex()}')
+            logger.debug('advertisement: %r', advertisement)
 
             if generic_device := self.device_handler.get_generic_device(ble_device, raw_data):
                 if time.monotonic() < self.next_publish:

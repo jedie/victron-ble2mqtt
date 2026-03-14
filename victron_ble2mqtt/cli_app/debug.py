@@ -6,13 +6,13 @@ import asyncio
 import logging
 from datetime import datetime
 
-from bleak import BLEDevice
+from bleak import AdvertisementData, BLEDevice
 from cli_base.cli_tools.verbosity import setup_logging
 from cli_base.toml_settings.api import TomlSettings
 from cli_base.tyro_commands import TyroVerbosityArgType
 from rich import print
-from victron_ble.devices import detect_device_type
-from victron_ble.scanner import BaseScanner
+from victron_ble.devices import Device
+from victron_ble.scanner import Scanner as BaseScanner
 
 from victron_ble2mqtt.cli_app import app
 from victron_ble2mqtt.cli_app.settings import get_settings
@@ -31,15 +31,10 @@ def discover(verbosity: TyroVerbosityArgType):
     setup_logging(verbosity=verbosity)
 
     class Scanner(BaseScanner):
-
-        def callback(self, device: BLEDevice, raw_data: bytes):
-            print(datetime.now())
-            data = {'name': device.name, 'address': device.address, 'details': device.details}
-            print(data)
-            if DeviceClass := detect_device_type(raw_data):
-                print(f'Device type: {DeviceClass.__name__}')
-            else:
-                print(f'Unknown device type: {raw_data.hex()}')
+        def get_device(self, *args, **kwargs) -> Device:
+            device = super().get_device(*args, **kwargs)
+            print(f'get_device() result: {device}')
+            return device
 
     async def scan():
         scanner = Scanner()
@@ -70,7 +65,7 @@ def debug_read(verbosity: TyroVerbosityArgType, keys: list[str] | None = None):
             super().__init__()
             self.device_handler = DeviceHandler(keys)
 
-        def callback(self, ble_device: BLEDevice, raw_data: bytes):
+        def callback(self, ble_device: BLEDevice, raw_data: bytes, advertisement: AdvertisementData):
             print(datetime.now(), ble_device.name, end=' ')
             if generic_device := self.device_handler.get_generic_device(ble_device, raw_data):
                 data_dict = generic_device.parse(raw_data=raw_data)
