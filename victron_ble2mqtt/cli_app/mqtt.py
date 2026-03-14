@@ -11,7 +11,7 @@ from cli_base.cli_tools.verbosity import setup_logging
 from cli_base.toml_settings.api import TomlSettings
 from cli_base.tyro_commands import TyroVerbosityArgType
 from ha_services.mqtt4homeassistant.mqtt import get_connected_client
-from rich import print  # noqa
+from rich import print
 from victron_ble.scanner import BaseScanner
 
 from victron_ble2mqtt.cli_app import app
