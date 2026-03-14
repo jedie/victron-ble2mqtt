@@ -366,7 +366,7 @@ class FallbackHandler(BaseHandler):
     def setup(self, *, data_dict):
         super().setup(data_dict=data_dict)
 
-        for key in data_dict.keys():
+        for key in data_dict:
             if key == 'model_name':
                 continue
 

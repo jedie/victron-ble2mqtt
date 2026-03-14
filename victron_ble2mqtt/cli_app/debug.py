@@ -10,7 +10,7 @@ from bleak import BLEDevice
 from cli_base.cli_tools.verbosity import setup_logging
 from cli_base.toml_settings.api import TomlSettings
 from cli_base.tyro_commands import TyroVerbosityArgType
-from rich import print  # noqa
+from rich import print
 from victron_ble.devices import detect_device_type
 from victron_ble.scanner import BaseScanner
 
@@ -34,7 +34,7 @@ def discover(verbosity: TyroVerbosityArgType):
 
         def callback(self, device: BLEDevice, raw_data: bytes):
             print(datetime.now())
-            data = dict(name=device.name, address=device.address, details=device.details)
+            data = {'name': device.name, 'address': device.address, 'details': device.details}
             print(data)
             if DeviceClass := detect_device_type(raw_data):
                 print(f'Device type: {DeviceClass.__name__}')

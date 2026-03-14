@@ -39,7 +39,7 @@ class DeviceHandler:
         self.devices = {}
 
     def get_generic_device(self, device: BLEDevice, raw_data: bytes) -> GenericDevice | None:
-        data = dict(name=device.name, address=device.address, details=device.details)
+        data = {"name": device.name, "address": device.address, "details": device.details}
         logger.debug('Received data: %s', data)
         try:
             return self.devices[device.address]
