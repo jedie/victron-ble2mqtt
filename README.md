@@ -245,6 +245,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.4...main)
+  * 2026-03-14 - Update requirements
 * [v0.7.4](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.3...v0.7.4)
   * 2026-02-08 - Apply manageproject updates: Set min. Python to v3.12
 * [v0.7.3](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.2...v0.7.3)
@@ -261,14 +263,14 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
   * 2025-09-24 - cleanup
   * 2025-09-24 - Apply manageproject updates + update requirements
   * 2025-09-24 - Update sensor units to those supported by the device class
+
+<details><summary>Expand older history entries ...</summary>
+
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
   * 2025-09-13 - fix wrong links in README
   * 2025-09-13 - Add PyCharm run config files
   * 2025-09-13 - Apply manageprojects updates
   * 2025-08-19 - Bugfix "consumed_ah" sensor: "electricity" -> "energy"
-
-<details><summary>Expand older history entries ...</summary>
-
 * [v0.7.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.6.0...v0.7.0)
   * 2025-08-19 - NEW: "./cli.py systemd-logs"
   * 2025-08-19 - Add new setting: `publish_throttle_seconds` for #31
