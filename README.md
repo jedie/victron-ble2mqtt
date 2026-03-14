@@ -245,6 +245,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [v0.7.6](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.5...v0.7.6)
+  * 2026-03-14 - Don't install dev dependencies by `cli.py`
 * [v0.7.5](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.4...v0.7.5)
   * 2026-03-14 - Apply code style changes
   * 2026-03-14 - Update requirements
@@ -258,15 +260,15 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
   * 2025-10-15 - Add support for temperature for shunt
   * 2025-09-25 - Fix SolarChargerHandler "yield_today" sensor
   * 2025-09-25 - Tweak 'Consumed Ah' because "Ah" is not supported in HA.
+
+<details><summary>Expand older history entries ...</summary>
+
 * [v0.7.2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.1...v0.7.2)
   * 2025-09-24 - remove obsolete .flake8 config + add/update PyCharm run configs
   * 2025-09-24 - Remaining Minutes: set device_class='duration'
   * 2025-09-24 - cleanup
   * 2025-09-24 - Apply manageproject updates + update requirements
   * 2025-09-24 - Update sensor units to those supported by the device class
-
-<details><summary>Expand older history entries ...</summary>
-
 * [v0.7.1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.0...v0.7.1)
   * 2025-09-13 - fix wrong links in README
   * 2025-09-13 - Add PyCharm run config files

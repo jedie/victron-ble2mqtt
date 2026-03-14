@@ -59,7 +59,15 @@ def main(argv):
 
     # Call our entry point CLI:
     try:
-        verbose_check_call(uv_bin, 'run', '--active', '-m', 'victron_ble2mqtt', *argv[1:])
+        verbose_check_call(
+            uv_bin,
+            'run',
+            '--no-dev',  # Don't install dev dependencies!
+            '--active',  # Use the existing virtualenv
+            '-m',
+            'victron_ble2mqtt',
+            *argv[1:],
+        )
     except subprocess.CalledProcessError as err:
         sys.exit(err.returncode)
     except KeyboardInterrupt:

@@ -4,5 +4,5 @@
 """
 
 # See https://packaging.python.org/en/latest/specifications/version-specifiers/
-__version__ = '0.7.5'
+__version__ = '0.7.6'
 __author__ = 'Jens Diemer <git@jensdiemer.de>'
