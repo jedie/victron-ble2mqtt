@@ -245,7 +245,7 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.4...main)
+* [v0.7.5](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.4...v0.7.5)
   * 2026-03-14 - Apply code style changes
   * 2026-03-14 - Update requirements
 * [v0.7.4](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.3...v0.7.4)
