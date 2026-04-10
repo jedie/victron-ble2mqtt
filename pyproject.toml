@@ -11,7 +11,7 @@ requires-python = ">=3.12"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
     "ha-services>=2.15.4",  # https://github.com/jedie/ha-services
-    "cli-base-utilities>=0.17.0",  # https://github.com/jedie/cli-base-utilities
+    "cli-base-utilities>=0.29.2",  # https://github.com/jedie/cli-base-utilities
     "bx_py_utils",  # https://github.com/boxine/bx_py_utils
     "tyro",  # https://github.com/brentyi/tyro
     "rich",  # https://github.com/Textualize/rich
@@ -46,6 +46,7 @@ exclude-newer = "1 week"
 uv = "2026-04-10T12:00:00Z"
 cryptography = "2026-04-08T12:00:00Z"
 ha-services = "2026-04-11T00:00:00Z"
+cli-base-utilities = "2026-04-11T00:00:00Z"
 
 
 [tool.cli_base.pip_audit]

@@ -36,7 +36,7 @@ More screenshots here: https://github.com/jedie/jedie.github.io/blob/master/scre
 The easiest way is to install "victron-ble2mqtt" via [pipx](https://pipx.pypa.io/), e.g.:
 ```bash
 ~$ sudo apt install pipx
-~$ pipx install victron-ble2mqtt
+~$ pipx install --verbose victron-ble2mqtt
 ```
 Then just call `victron-ble2mqtt` CLI, e.g.:
 ```bash
@@ -109,6 +109,19 @@ device_keys = [
 ]
 ```
 Just insert the keys of all Victron Energy Smart Devices you want to monitor.
+
+
+### How to get settings defaults back?
+
+There is a trick to get the default value back for one or more settings.
+Follow these steps:
+
+1. Call `edit-settings` and comment out the setting you want to reset by add a `#` at the beginning of the line
+2. Save and exit the editor
+3. Call `print-settings`: You will see the commented out setting has not the default value
+4. To cleanup: Call `edit-settings` again: You can now delete the commented lines
+
+To reset the settings completely: Rename or delete your settings file and call `edit-settings`: The default settings file will be created again.
 
 ### Test
 
@@ -248,7 +261,10 @@ To upgrade, just follow the installation instructions above.
 Call `victron-ble2mqtt edit-settings` to update your settings file. It's needed to update the `template_path`, `work_dir` and `exec_start`.
 Because they contain the full path to our old git clone installation.
 
-The call of `systemd-setup` command, will update the systemd service file.
+Read above the "How to get settings defaults back?" section to reset the path values to defaults.
+
+Don't forget to call `systemd-setup` command to update the systemd service file with the new paths!
+
 
 ### 0.4.0
 
@@ -263,6 +279,7 @@ You must edit your settings:
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
 * [v0.8.0rc1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...v0.8.0rc1)
+  * 2026-04-10 - Enhance documentation how to update to pipx installation
   * 2026-04-10 - New install method with pipx
   * 2026-04-10 - Apply project updates
 * [v0.7.7](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.6...v0.7.7)
