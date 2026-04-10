@@ -33,7 +33,7 @@ def version():
 def main(args: Sequence[str] | None = None):
     print_version(victron_ble2mqtt)
     app.cli(
-        prog='./cli.py',
+        prog='victron_ble2mqtt',  # Enforce program name if pipx used
         description=constants.CLI_EPILOG,
         use_underscores=False,  # use hyphens instead of underscores
         sort_subcommands=True,
