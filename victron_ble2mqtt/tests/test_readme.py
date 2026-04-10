@@ -40,7 +40,7 @@ class ReadmeTestCase(BaseTestCase):
         assert_in(
             content=stdout,
             parts=(
-                'usage: victron_ble2mqtt [-h]',
+                'usage: victron-ble2mqtt [-h]',
                 ' version ',
                 'Print version and exit',
                 constants.CLI_EPILOG,
