@@ -3,13 +3,14 @@ revision = 3
 requires-python = ">=3.12"
 
 [options]
-exclude-newer = "2026-04-03T20:21:41.985797159Z"
+exclude-newer = "2026-04-03T21:16:49.157271539Z"
 exclude-newer-span = "P1W"
 
 [options.exclude-newer-package]
+cli-base-utilities = "2026-04-11T00:00:00Z"
+cryptography = "2026-04-08T12:00:00Z"
 uv = "2026-04-10T12:00:00Z"
 ha-services = "2026-04-11T00:00:00Z"
-cryptography = "2026-04-08T12:00:00Z"
 
 [[package]]
 name = "argcomplete"
@@ -233,7 +234,7 @@ wheels = [
 
 [[package]]
 name = "cli-base-utilities"
-version = "0.29.0"
+version = "0.29.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bx-py-utils" },
@@ -243,9 +244,9 @@ dependencies = [
     { name = "tomlkit" },
     { name = "tyro" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/88/6c/49fb51ab88452d2da639771ea08aa36f43f055245469936fcb8f8efeb351/cli_base_utilities-0.29.0.tar.gz", hash = "sha256:8b5d4caeedb2219ab443befd6641a72e7201b9774e86454da5abafad78382bff", size = 154656, upload-time = "2026-03-28T09:38:54.791Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/60/0a/66a6e0ebacd6d2f841cfef3fb11143248eb436e1edb49c0824afde461d45/cli_base_utilities-0.29.2.tar.gz", hash = "sha256:5c6265fb583fa062e254b9c9708a013e67b977f46d837237adc6db48fe9531b6", size = 155842, upload-time = "2026-04-10T21:15:59.21Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/ad/e39a5490291d8124099d9ac6ff9aad2d021142d1594ce8ed6cc743fbaadc/cli_base_utilities-0.29.0-py3-none-any.whl", hash = "sha256:42dd0215960f5c9ece453c3a4eaddd79d2426c7da012ef1747f45f58c70acfe8", size = 107547, upload-time = "2026-03-28T09:38:52.944Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/40/eb45500cb9ca4f830d9749182603a82e6b5ff217fc1c35d5895cd2f24dc1/cli_base_utilities-0.29.2-py3-none-any.whl", hash = "sha256:b31b56e5f9d2849629ff1253bcff1be3213c59e68517eac16d66b1a6edefa81b", size = 107367, upload-time = "2026-04-10T21:15:57.77Z" },
 ]
 
 [[package]]
@@ -1820,7 +1821,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "bx-py-utils" },
-    { name = "cli-base-utilities", specifier = ">=0.17.0" },
+    { name = "cli-base-utilities", specifier = ">=0.29.2" },
     { name = "ha-services", specifier = ">=2.15.4" },
     { name = "rich" },
     { name = "tyro" },
