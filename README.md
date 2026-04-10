@@ -153,7 +153,7 @@ Check the services:
 
 [comment]: <> (✂✂✂ auto generated main help start ✂✂✂)
 ```
-usage: victron_ble2mqtt [-h] {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
+usage: victron-ble2mqtt [-h] {debug-read,discover,edit-settings,print-settings,publish-loop,shell-completion,systemd-debug,systemd-logs,systemd-remove,systemd-setup,systemd-status,systemd-stop,update-readme-history,version}
 
 
 
@@ -278,7 +278,8 @@ You must edit your settings:
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [v0.8.0rc1](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...v0.8.0rc1)
+* [v0.8.0rc2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...v0.8.0rc2)
+  * 2026-04-10 - fix CLI prog name to: "victron-ble2mqtt"
   * 2026-04-10 - Enhance documentation how to update to pipx installation
   * 2026-04-10 - New install method with pipx
   * 2026-04-10 - Apply project updates

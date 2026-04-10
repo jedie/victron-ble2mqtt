@@ -7,8 +7,7 @@ import sys
 from collections.abc import Sequence
 
 from cli_base.autodiscover import import_all_files
-from cli_base.cli_tools.version_info import print_version
-from rich import print  # noqa
+from rich import print
 from tyro.extras import SubcommandApp
 
 import victron_ble2mqtt
@@ -31,9 +30,10 @@ def version():
 
 
 def main(args: Sequence[str] | None = None):
-    print_version(victron_ble2mqtt)
+    prog = 'victron-ble2mqtt'  # Enforce program name if pipx used
+    print(f'[bold][green]{prog}[/green] v{victron_ble2mqtt.__version__}')
     app.cli(
-        prog='victron_ble2mqtt',  # Enforce program name if pipx used
+        prog=prog,
         description=constants.CLI_EPILOG,
         use_underscores=False,  # use hyphens instead of underscores
         sort_subcommands=True,

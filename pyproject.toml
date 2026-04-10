@@ -64,7 +64,7 @@ Documentation = "https://github.com/jedie/victron-ble2mqtt"
 Source = "https://github.com/jedie/victron-ble2mqtt"
 
 [project.scripts]
-victron_ble2mqtt = "victron_ble2mqtt.__main__:main"
+victron-ble2mqtt = "victron_ble2mqtt.__main__:main"
 
 
 [tool.bx_py_utils.doc_write]

@@ -22,7 +22,7 @@ class ProjectSetupTestCase(TestCase):
         assert_is_file(cli_bin)
 
         output = subprocess.check_output([cli_bin, 'version'], text=True)
-        self.assertIn(f'victron_ble2mqtt v{__version__}', output)
+        self.assertIn(f'victron-ble2mqtt v{__version__}', output)
 
         dev_cli_bin = PACKAGE_ROOT / 'dev-cli.py'
         assert_is_file(dev_cli_bin)
