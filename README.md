@@ -245,6 +245,8 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
+* [**dev**](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...main)
+  * 2026-04-10 - Apply project updates
 * [v0.7.7](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.6...v0.7.7)
   * 2026-03-14 - Fix #51 API changes in victron-ble v0.9.3
 * [v0.7.6](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.5...v0.7.6)
@@ -252,11 +254,11 @@ Just insert the keys of all Victron Energy Smart Devices you want to monitor.
 * [v0.7.5](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.4...v0.7.5)
   * 2026-03-14 - Apply code style changes
   * 2026-03-14 - Update requirements
-* [v0.7.4](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.3...v0.7.4)
-  * 2026-02-08 - Apply manageproject updates: Set min. Python to v3.12
 
 <details><summary>Expand older history entries ...</summary>
 
+* [v0.7.4](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.3...v0.7.4)
+  * 2026-02-08 - Apply manageproject updates: Set min. Python to v3.12
 * [v0.7.3](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.2...v0.7.3)
   * 2025-12-09 - update README
   * 2025-12-09 - Apply manageprojects update

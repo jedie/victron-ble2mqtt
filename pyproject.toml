@@ -10,7 +10,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "victron-ble",  # https://github.com/keshavdv/victron-ble
-    "ha-services>=2.14.0",  # https://github.com/jedie/ha-services
+    "ha-services>=2.15.4",  # https://github.com/jedie/ha-services
     "cli-base-utilities>=0.17.0",  # https://github.com/jedie/cli-base-utilities
     "bx_py_utils",  # https://github.com/boxine/bx_py_utils
     "tyro",  # https://github.com/brentyi/tyro
@@ -34,6 +34,29 @@ dev = [
     "pre-commit",  # https://github.com/pre-commit/pre-commit
     "typeguard",  # https://github.com/agronholm/typeguard/
 ]
+
+
+[tool.uv]
+# Don't install bleed-edge versions of dependencies, to avoid undetected issues and supply chain attacks.
+exclude-newer = "1 week"
+
+[tool.uv.exclude-newer-package]
+# Exclude own packages from the "exclude-newer" rule and
+# add external packages temporarily to fix known issues or current CVEs
+uv = "2026-04-10T12:00:00Z"
+cryptography = "2026-04-08T12:00:00Z"
+ha-services = "2026-04-11T00:00:00Z"
+
+
+[tool.cli_base.pip_audit]
+strict=true
+require_hashes=true
+ignore-vuln=[
+    "CVE-2026-4539", # https://github.com/pygments/pygments/issues/3058#issuecomment-4127344972
+]
+
+[tool.cli_base]
+version_module_name = "victron_ble2mqtt"  # Used by "update-readme-history" git hook
 
 [project.urls]
 Documentation = "https://github.com/jedie/victron-ble2mqtt"
@@ -60,15 +83,6 @@ packages = ["victron_ble2mqtt"]
 
 [tool.hatch.version]
 path = "victron_ble2mqtt/__init__.py"
-
-
-[tool.cli_base.pip_audit]
-strict=true
-require_hashes=true
-ignore-vuln=[]
-
-[tool.cli_base]
-version_module_name = "victron_ble2mqtt"  # Used by "update-readme-history" git hook
 
 
 [tool.ruff]
@@ -106,7 +120,7 @@ source = ['.']
 command_line = '-m unittest --verbose --locals --buffer'
 
 [tool.coverage.report]
-omit = ['.*', '*/tests/*']
+omit = ['.*', '*/tests/*', 'noxfile.py']
 skip_empty = true
 fail_under = 30
 show_missing = true
@@ -139,6 +153,7 @@ applied_migrations = [
     "86b20b9", # 2025-09-22T21:43:37+02:00
     "95a3003", # 2025-11-28T22:00:56+01:00
     "af6dd62", # 2026-01-26T16:04:53+01:00
+    "3cbc419", # 2026-04-09T17:37:01+02:00
 ]
 
 [manageprojects.cookiecutter_context.cookiecutter]
