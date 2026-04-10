@@ -143,10 +143,29 @@ Setup services:
 ```
 After this the MQTT publising runs and will be started on boot.
 
+**Note:**
+You may need to run the above command with `sudo` if you get a permission error!
+For the `sudo` call the full path to the `victron-ble2mqtt` executable is needed.
+You can get it by call `which victron-ble2mqtt` or just this:
+```bash
+~$ sudo $(which victron-ble2mqtt) systemd-setup
+```
+
+
 Check the services:
 ```bash
 ~$ victron-ble2mqtt systemd-status
 ```
+
+
+### update
+
+To update, just call:
+```bash
+~$ pipx upgrade --verbose victron-ble2mqtt
+```
+
+see: https://pipx.pypa.io/stable/docs/#pipx-upgrade
 
 
 # app CLI
@@ -278,7 +297,8 @@ You must edit your settings:
 
 [comment]: <> (✂✂✂ auto generated history start ✂✂✂)
 
-* [v0.8.0rc2](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...v0.8.0rc2)
+* [v0.8.0](https://github.com/jedie/victron-ble2mqtt/compare/v0.7.7...v0.8.0)
+  * 2026-04-11 - Expand README
   * 2026-04-10 - fix CLI prog name to: "victron-ble2mqtt"
   * 2026-04-10 - Enhance documentation how to update to pipx installation
   * 2026-04-10 - New install method with pipx
