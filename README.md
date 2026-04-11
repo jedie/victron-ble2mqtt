@@ -1,4 +1,4 @@
-# victron_ble2mqtt
+# victron-ble2mqtt
 
 [![tests](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/jedie/victron-ble2mqtt/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/github/jedie/victron-ble2mqtt/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/victron-ble2mqtt)
@@ -29,6 +29,14 @@ More screenshots here: https://github.com/jedie/jedie.github.io/blob/master/scre
 `victron_ble` used [Bleak](https://pypi.org/project/bleak/) and the Linux backend of Bleak communicates with BlueZ over DBus. So you have to install this, e.g.:
 ```bash
 ~$ sudo apt install bluez
+```
+
+Note: If you using a Raspberry Pi: Check that https://www.piwheels.org/ are in use.
+For this, just look into `etc/pip.conf` it should be looked like this:
+```bash
+~/pysmartmeter$ cat /etc/pip.conf
+[global]
+extra-index-url=https://www.piwheels.org/simple
 ```
 
 ### Installation
